@@ -4,132 +4,169 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>نظام فحص الغرف - لابتوب وجوال</title>
+<title>نظام فحص الغرف - Firebase</title>
 <style>
-:root {
-  --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#667085; --line:#e7ecf3;
-  --main:#122033; --accent:#d2a85a; --ok:#166534; --warn:#b45309; --bad:#b91c1c;
+:root{
+  --bg:#f5f7fb; --card:#ffffff; --text:#172033; --muted:#667085; --line:#e7ecf3;
+  --main:#122033; --accent:#d2a85a; --ok:#166534; --warn:#b45309; --bad:#b91c1c; --soft:#f8fafc;
 }
-* { box-sizing:border-box; }
-body {
-  margin:0; font-family:Tahoma,Arial,sans-serif; background:linear-gradient(180deg,#f6f8fb,#eef2f7); color:var(--text);
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#f6f8fb,#eef2f7);color:var(--text)}
+.wrap{max-width:1280px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border-radius:22px;padding:22px;margin-bottom:16px}
+.hero h1{margin:0 0 8px;font-size:32px}
+.hero p{margin:0;color:#dbe3ee;line-height:1.8}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+.section{padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}
+.stat{padding:16px;min-height:110px}
+.label{color:var(--muted);font-size:13px;margin-bottom:8px}
+.value{font-size:30px;font-weight:800}
+.sub{font-size:12px;color:var(--muted);margin-top:6px}
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}
+h2{margin:0 0 14px;font-size:22px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-weight:700;font-size:13px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.full{grid-column:1 / -1}
+input, select, textarea, button{font:inherit}
+input, select, textarea{
+  width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;outline:none
 }
-.wrap { max-width:1280px; margin:auto; padding:18px; }
-.hero {
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:#fff; border-radius:22px; padding:22px; margin-bottom:16px;
-}
-.hero h1 { margin:0 0 8px; font-size:32px; }
-.hero p { margin:0; color:#dbe3ee; line-height:1.8; }
-.grid6 {
-  display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:16px;
-}
-.card {
-  background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:0 10px 30px rgba(15,23,42,.06);
-}
-.stat { padding:16px; min-height:110px; }
-.label { color:var(--muted); font-size:13px; margin-bottom:8px; }
-.value { font-size:30px; font-weight:800; }
-.sub { font-size:12px; color:var(--muted); margin-top:6px; }
-.layout { display:grid; grid-template-columns:1.08fr .92fr; gap:16px; }
-.section { padding:18px; }
-h2 { margin:0 0 14px; font-size:22px; }
-.field { display:flex; flex-direction:column; gap:8px; }
-.field label { font-weight:700; font-size:13px; }
-.row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.row3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-.full { grid-column:1 / -1; }
-input, select, textarea, button {
-  font:inherit;
-}
-input, select, textarea {
-  width:100%; border:1px solid var(--line); background:#fff; border-radius:14px; padding:12px 14px; outline:none;
-}
-textarea { min-height:96px; resize:vertical; }
-button {
-  border:none; border-radius:14px; padding:12px 16px; cursor:pointer; font-weight:700;
-}
-.btn-main { background:var(--main); color:#fff; }
-.btn-soft { background:#fff; color:var(--text); border:1px solid var(--line); }
-.btn-accent { background:var(--accent); color:#1f2937; }
-.actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
-.box {
-  background:#f8fafc; border:1px solid var(--line); border-radius:16px; padding:12px;
-}
-.table-wrap { overflow:auto; border:1px solid var(--line); border-radius:16px; }
-table { width:100%; border-collapse:collapse; background:#fff; }
-th, td { padding:10px 8px; border-bottom:1px solid var(--line); text-align:center; font-size:13px; }
-th { background:#f8fafc; position:sticky; top:0; }
-.chip {
-  display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700;
-}
-.c-سليم { background:#dcfce7; color:var(--ok); }
-.c-ملاحظة { background:#fef3c7; color:var(--warn); }
-.c-عطل, .c-عاجل { background:#fee2e2; color:var(--bad); }
-.c-لميفحص { background:#eef2f7; color:#475467; }
-.note {
-  background:#fff8eb; border:1px solid #f2d7a0; color:#9a6700; border-radius:14px; padding:12px 14px; line-height:1.8; font-size:13px; margin-bottom:12px;
-}
-.small { font-size:12px; color:var(--muted); }
-.progress { margin-top:8px; height:10px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
-.progress > span { display:block; width:0%; height:100%; background:linear-gradient(90deg,var(--accent),var(--main)); }
-@media (max-width:1080px) {
-  .grid6 { grid-template-columns:repeat(3,1fr); }
-  .layout { grid-template-columns:1fr; }
-}
-@media (max-width:700px) {
-  .grid6 { grid-template-columns:repeat(2,1fr); }
-  .row2,.row3 { grid-template-columns:1fr; }
-  .hero h1 { font-size:24px; }
-}
+textarea{min-height:96px;resize:vertical}
+button{border:none;border-radius:14px;padding:12px 16px;cursor:pointer;font-weight:700}
+.btn-main{background:var(--main);color:#fff}
+.btn-soft{background:#fff;color:var(--text);border:1px solid var(--line)}
+.btn-accent{background:var(--accent);color:#1f2937}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.box{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:12px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;background:#fff}
+th, td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;font-size:13px;vertical-align:top}
+th{background:#f8fafc;position:sticky;top:0}
+.chip{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.c-سليم{background:#dcfce7;color:var(--ok)}
+.c-ملاحظة{background:#fef3c7;color:var(--warn)}
+.c-عطل,.c-عاجل{background:#fee2e2;color:var(--bad)}
+.c-لميفحص{background:#eef2f7;color:#475467}
+.note{background:#fff8eb;border:1px solid #f2d7a0;color:#9a6700;border-radius:14px;padding:12px 14px;line-height:1.8;font-size:13px;margin-bottom:12px}
+.small{font-size:12px;color:var(--muted)}
+.progress{margin-top:8px;height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.progress > span{display:block;width:0%;height:100%;background:linear-gradient(90deg,var(--accent),var(--main))}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700}
+.badge.admin{background:#dcfce7;color:#166534}
+.hidden{display:none !important}
+#authView{max-width:980px;margin:auto}
+.alert{padding:12px 14px;border-radius:14px;margin-bottom:12px;font-size:13px}
+.alert.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.alert.ok{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+@media (max-width:1080px){.grid6{grid-template-columns:repeat(3,1fr)}.layout,.grid2{grid-template-columns:1fr}}
+@media (max-width:700px){.grid6{grid-template-columns:repeat(2,1fr)}.row2,.row3{grid-template-columns:1fr}.hero h1{font-size:24px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
     <h1>نظام فحص الغرف</h1>
-    <p>نسخة موحدة تشتغل على اللابتوب والجوال من المتصفح. مناسبة أكثر على اللابتوب أو أي متصفح حقيقي. تحفظ السجلات داخل نفس المتصفح ويمكنك تصديرها CSV ونسخة احتياطية JSON.</p>
+    <p>نسخة مرتبطة بحسابات دخول. الأدمن له مراجعة كاملة، والمستخدم يضيف ويعدل سجلاته فقط. الصور هنا تُكتب كأسماء أو روابط، وليست رفعًا فعليًا.</p>
   </section>
 
-  <div class="grid6">
-    <div class="card stat"><div class="label">إجمالي الغرف</div><div class="value">140</div><div class="sub">10 أدوار × 14 غرفة</div></div>
-    <div class="card stat"><div class="label">الغرف المفحوصة</div><div class="value" id="inspectedCount">0</div><div class="sub">المحفوظة في هذا المتصفح</div></div>
-    <div class="card stat"><div class="label">نسبة الإنجاز</div><div class="value" id="progressPct">0.0%</div><div class="progress"><span id="progressBar"></span></div></div>
-    <div class="card stat"><div class="label">الحالات المتأثرة</div><div class="value" id="affectedCount">0</div><div class="sub">غرف فيها ملاحظة أو عطل أو عاجل</div></div>
-    <div class="card stat"><div class="label">الحالات المغلقة</div><div class="value" id="closedCount">0</div><div class="sub">بحسب حالة المعالجة</div></div>
-    <div class="card stat"><div class="label">إجمالي الصور</div><div class="value" id="photosCount">0</div><div class="sub">أسماء الصور المدخلة</div></div>
+  <div id="authView">
+    <div class="grid2">
+      <section class="card section">
+        <h2>تسجيل الدخول</h2>
+        <div id="loginMsg"></div>
+        <div class="field">
+          <label>البريد الإلكتروني</label>
+          <input id="loginEmail" type="email" placeholder="example@email.com">
+        </div>
+        <div class="field" style="margin-top:12px;">
+          <label>كلمة المرور</label>
+          <input id="loginPassword" type="password" placeholder="********">
+        </div>
+        <div class="actions">
+          <button class="btn-main" id="loginBtn">دخول</button>
+          <button class="btn-soft" id="resetPasswordBtn">إعادة تعيين كلمة المرور</button>
+        </div>
+      </section>
+
+      <section class="card section">
+        <h2>إنشاء مستخدم جديد</h2>
+        <div id="signupMsg"></div>
+        <div class="note">الأدمن: ccoccc15@hotmail.com</div>
+        <div class="field">
+          <label>الاسم</label>
+          <input id="signupName" type="text" placeholder="اسم المستخدم">
+        </div>
+        <div class="field" style="margin-top:12px;">
+          <label>البريد الإلكتروني</label>
+          <input id="signupEmail" type="email" placeholder="example@email.com">
+        </div>
+        <div class="field" style="margin-top:12px;">
+          <label>كلمة المرور</label>
+          <input id="signupPassword" type="password" placeholder="6 أحرف أو أكثر">
+        </div>
+        <div class="actions">
+          <button class="btn-accent" id="signupBtn">إنشاء حساب</button>
+        </div>
+      </section>
+    </div>
   </div>
 
-  <div class="layout">
-    <section class="card section">
-      <h2>إدخال فحص غرفة</h2>
-      <div class="note">هذه النسخة لا تعتمد على توليد رقم الغرفة من الدور، لذلك ما عندك قصة 101 العنيدة. اختر رقم الغرفة مباشرةً من القائمة وينتهي الفيلم.</div>
-
-      <div class="row2">
-        <div class="field">
-          <label>اسم المفتش</label>
-          <input id="inspector" value="نهار سعود هاجد الحربي">
-        </div>
-        <div class="field">
-          <label>تاريخ الفحص</label>
-          <input id="inspectionDate" type="date">
-        </div>
+  <div id="appView" class="hidden">
+    <div class="card section topbar">
+      <div>
+        <strong id="currentUserName">-</strong>
+        <span id="roleBadge" class="badge">مستخدم</span>
+        <div class="small" id="currentUserEmail">-</div>
       </div>
+      <div class="actions" style="margin:0;">
+        <button class="btn-soft" id="logoutBtn">تسجيل الخروج</button>
+      </div>
+    </div>
 
-      <div class="row2" style="margin-top:12px;">
-        <div class="field">
-          <label>الدور</label>
-          <select id="floor">
-            <option value="">اختر الدور</option>
-            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-            <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-          </select>
+    <div class="grid6">
+      <div class="card stat"><div class="label">إجمالي الغرف</div><div class="value">140</div><div class="sub">10 أدوار × 14 غرفة</div></div>
+      <div class="card stat"><div class="label">الغرف المفحوصة</div><div class="value" id="inspectedCount">0</div><div class="sub">المحفوظة في Firebase</div></div>
+      <div class="card stat"><div class="label">نسبة الإنجاز</div><div class="value" id="progressPct">0.0%</div><div class="progress"><span id="progressBar"></span></div></div>
+      <div class="card stat"><div class="label">الحالات المتأثرة</div><div class="value" id="affectedCount">0</div><div class="sub">غرف فيها ملاحظة أو عطل أو عاجل</div></div>
+      <div class="card stat"><div class="label">الحالات المغلقة</div><div class="value" id="closedCount">0</div><div class="sub">بحسب حالة المعالجة</div></div>
+      <div class="card stat"><div class="label">إجمالي الصور</div><div class="value" id="photosCount">0</div><div class="sub">أسماء الصور أو الروابط</div></div>
+    </div>
+
+    <div class="layout">
+      <section class="card section">
+        <h2>إدخال فحص غرفة</h2>
+        <div class="note">كل غرفة لها سجل واحد محدث. الأدمن يشوف ويعدل الجميع، والمستخدم يعدل سجلاته فقط.</div>
+
+        <div class="row2">
+          <div class="field">
+            <label>اسم المفتش</label>
+            <input id="inspector" value="">
+          </div>
+          <div class="field">
+            <label>تاريخ الفحص</label>
+            <input id="inspectionDate" type="date">
+          </div>
         </div>
-        <div class="field">
-          <label>رقم الغرفة</label>
-          <select id="room">
-            <option value="">اختر رقم الغرفة</option>
-            <option value="101">101</option>
+
+        <div class="row2" style="margin-top:12px;">
+          <div class="field">
+            <label>الدور</label>
+            <select id="floor">
+              <option value="">اختر الدور</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+              <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>رقم الغرفة</label>
+            <select id="room">
+              <option value="">اختر رقم الغرفة</option>
+              <option value="101">101</option>
 <option value="102">102</option>
 <option value="103">103</option>
 <option value="104">104</option>
@@ -269,210 +306,206 @@ th { background:#f8fafc; position:sticky; top:0; }
 <option value="1012">1012</option>
 <option value="1013">1013</option>
 <option value="1014">1014</option>
-          </select>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div class="box" style="margin-top:14px;">
-        <div class="row2">
-          <div class="field"><label>الباب</label><select id="door"><option value="لم يفحص">لم يفحص</option>
+        <div class="box" style="margin-top:14px;">
+          <div class="row2">
+            <div class="field"><label>الباب</label><select id="door"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
-          <div class="field"><label>الجدار / التشققات</label><select id="wall"><option value="لم يفحص">لم يفحص</option>
+            <div class="field"><label>الجدار / التشققات</label><select id="wall"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
-          <div class="field"><label>الرطوبة</label><select id="humidity"><option value="لم يفحص">لم يفحص</option>
+            <div class="field"><label>الرطوبة</label><select id="humidity"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
-          <div class="field"><label>الشاشة</label><select id="screen"><option value="لم يفحص">لم يفحص</option>
+            <div class="field"><label>الشاشة</label><select id="screen"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
-          <div class="field"><label>المياه / السباكة</label><select id="water"><option value="لم يفحص">لم يفحص</option>
+            <div class="field"><label>المياه / السباكة</label><select id="water"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
-          <div class="field"><label>شفط الحمام</label><select id="exhaust"><option value="لم يفحص">لم يفحص</option>
+            <div class="field"><label>شفط الحمام</label><select id="exhaust"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
-          <div class="field full"><label>التكييف</label><select id="ac"><option value="لم يفحص">لم يفحص</option>
+            <div class="field full"><label>التكييف</label><select id="ac"><option value="لم يفحص">لم يفحص</option>
 <option value="سليم">سليم</option>
 <option value="ملاحظة">ملاحظة</option>
 <option value="عطل">عطل</option>
 <option value="عاجل">عاجل</option></select></div>
+          </div>
         </div>
-      </div>
 
-      <div class="row3" style="margin-top:12px;">
-        <div class="field">
-          <label>حالة المعالجة</label>
-          <select id="actionStatus">
-            <option>بدون إجراء</option>
-            <option>مفتوح</option>
-            <option>تحت الإجراء</option>
-            <option>مغلق</option>
-          </select>
+        <div class="row3" style="margin-top:12px;">
+          <div class="field">
+            <label>حالة المعالجة</label>
+            <select id="actionStatus">
+              <option>بدون إجراء</option>
+              <option>مفتوح</option>
+              <option>تحت الإجراء</option>
+              <option>مغلق</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>رقم البلاغ</label>
+            <input id="ticketNo" placeholder="مثال: MT-305-24">
+          </div>
+          <div class="field">
+            <label>إعادة فحص؟</label>
+            <select id="recheck">
+              <option>لا</option>
+              <option>نعم</option>
+            </select>
+          </div>
         </div>
-        <div class="field">
-          <label>رقم البلاغ</label>
-          <input id="ticketNo" placeholder="مثال: MT-305-24">
-        </div>
-        <div class="field">
-          <label>إعادة فحص؟</label>
-          <select id="recheck">
-            <option>لا</option>
-            <option>نعم</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="row2" style="margin-top:12px;">
-        <div class="field">
-          <label>تاريخ الإغلاق</label>
-          <input id="closeDate" type="date">
+        <div class="row2" style="margin-top:12px;">
+          <div class="field">
+            <label>تاريخ الإغلاق</label>
+            <input id="closeDate" type="date">
+          </div>
+          <div class="field">
+            <label>ملاحظات</label>
+            <textarea id="notes" placeholder="مثال: ضعف بالشفط + تسريب خفيف أسفل المغسلة"></textarea>
+          </div>
         </div>
-        <div class="field">
-          <label>ملاحظات</label>
-          <textarea id="notes" placeholder="مثال: ضعف بالشفط + تسريب خفيف أسفل المغسلة"></textarea>
+
+        <div class="box" style="margin-top:12px;">
+          <div class="small" style="margin-bottom:10px;">أسماء الصور أو روابطها — حتى 5 صور</div>
+          <div class="row3">
+            <div class="field"><label>صورة 1</label><input id="img1" placeholder="RM305-1 أو رابط"></div>
+            <div class="field"><label>صورة 2</label><input id="img2" placeholder="RM305-2 أو رابط"></div>
+            <div class="field"><label>صورة 3</label><input id="img3" placeholder="RM305-3 أو رابط"></div>
+            <div class="field"><label>صورة 4</label><input id="img4" placeholder="RM305-4 أو رابط"></div>
+            <div class="field"><label>صورة 5</label><input id="img5" placeholder="RM305-5 أو رابط"></div>
+            <div class="field"><label>عدد الصور</label><input id="imgCount" readonly value="0"></div>
+          </div>
         </div>
-      </div>
 
-      <div class="box" style="margin-top:12px;">
-        <div class="small" style="margin-bottom:10px;">أسماء الصور أو أرقامها — حتى 5 صور</div>
-        <div class="row3">
-          <div class="field"><label>صورة 1</label><input id="img1" placeholder="RM305-1"></div>
-          <div class="field"><label>صورة 2</label><input id="img2" placeholder="RM305-2"></div>
-          <div class="field"><label>صورة 3</label><input id="img3" placeholder="RM305-3"></div>
-          <div class="field"><label>صورة 4</label><input id="img4" placeholder="RM305-4"></div>
-          <div class="field"><label>صورة 5</label><input id="img5" placeholder="RM305-5"></div>
-          <div class="field"><label>عدد الصور</label><input id="imgCount" readonly value="0"></div>
+        <div class="actions">
+          <button class="btn-main" id="saveBtn">حفظ السجل</button>
+          <button class="btn-soft" id="clearBtn">تفريغ الحقول</button>
+          <button class="btn-accent" id="exportCsvBtn">تصدير CSV</button>
         </div>
-      </div>
+      </section>
 
-      <div class="actions">
-        <button class="btn-main" onclick="saveRecord()">حفظ السجل</button>
-        <button class="btn-soft" onclick="clearForm()">تفريغ الحقول</button>
-        <button class="btn-accent" onclick="exportCSV()">تصدير CSV</button>
-        <button class="btn-soft" onclick="exportJSON()">نسخة احتياطية JSON</button>
-      </div>
-    </section>
-
-    <section class="card section">
-      <h2>السجلات</h2>
-      <div class="row2" style="margin-bottom:12px;">
-        <div class="field">
-          <label>تصفية بالدور</label>
-          <select id="filterFloor" onchange="renderAll()">
-            <option value="">كل الأدوار</option>
-            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-            <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-          </select>
+      <section class="card section">
+        <h2>السجلات</h2>
+        <div class="row2" style="margin-bottom:12px;">
+          <div class="field">
+            <label>تصفية بالدور</label>
+            <select id="filterFloor">
+              <option value="">كل الأدوار</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+              <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>بحث</label>
+            <input id="searchText" placeholder="غرفة أو بلاغ أو ملاحظة">
+          </div>
         </div>
-        <div class="field">
-          <label>بحث</label>
-          <input id="searchText" oninput="renderAll()" placeholder="غرفة أو بلاغ أو ملاحظة">
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>الغرفة</th>
+                <th>التاريخ</th>
+                <th>الباب</th>
+                <th>الجدار</th>
+                <th>الرطوبة</th>
+                <th>الشاشة</th>
+                <th>المياه</th>
+                <th>الشفط</th>
+                <th>التكييف</th>
+                <th>المعالجة</th>
+                <th>الصور</th>
+                <th>المالك</th>
+                <th>ملاحظات</th>
+                <th>إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
         </div>
-      </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>الغرفة</th>
-              <th>التاريخ</th>
-              <th>الباب</th>
-              <th>الجدار</th>
-              <th>الرطوبة</th>
-              <th>الشاشة</th>
-              <th>المياه</th>
-              <th>الشفط</th>
-              <th>التكييف</th>
-              <th>المعالجة</th>
-              <th>الصور</th>
-              <th>ملاحظات</th>
-              <th>إجراء</th>
-            </tr>
-          </thead>
-          <tbody id="recordsBody"></tbody>
-        </table>
-      </div>
-
-      <div class="actions">
-        <button class="btn-soft" onclick="window.print()">طباعة</button>
-        <button class="btn-soft" onclick="clearAll()">مسح كل السجلات</button>
-      </div>
-    </section>
+        <div class="actions">
+          <button class="btn-soft" id="refreshBtn">تحديث</button>
+        </div>
+      </section>
+    </div>
   </div>
 </div>
 
-<script>
-const KEY = 'room-inspection-cross-platform-v1';
-const totalRooms = 140;
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, doc, setDoc, collection, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAlygTCgdvLFBXJzQ7ItVcKSmdAT6i0Aqc",
+  authDomain: "room-inspection-ae9ed.firebaseapp.com",
+  projectId: "room-inspection-ae9ed",
+  storageBucket: "room-inspection-ae9ed.firebasestorage.app",
+  messagingSenderId: "509543167455",
+  appId: "1:509543167455:web:abaf2dfab66838b430006a",
+  measurementId: "G-88RDHC0T5E"
+};
+
+const ADMIN_EMAIL = "ccoccc15@hotmail.com";
+const TOTAL_ROOMS = 140;
 const affectedStates = ['ملاحظة','عطل','عاجل'];
-function $(id) { return document.getElementById(id); }
-function today() {
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let allRows = [];
+let currentUser = null;
+
+const $ = (id) => document.getElementById(id);
+
+function today(){
   const d = new Date();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const day = String(d.getDate()).padStart(2,'0');
-  return `${d.getFullYear()}-${m}-${day}`;
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function getRecords() {
-  try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e) { return []; }
+function showMsg(elId, type, text){
+  const el = $(elId);
+  if(!text){ el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="alert ${type}">${text}</div>`;
 }
-function setRecords(data) { localStorage.setItem(KEY, JSON.stringify(data)); }
-function chip(v) {
-  const cls = 'c-' + String(v).replace(/\s+/g,'');
-  return `<span class="chip ${cls}">${v}</span>`;
+function isAdminEmail(email){
+  return (email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
 }
-function photoCount() {
+function photoCount(){
   const arr = [$('img1').value,$('img2').value,$('img3').value,$('img4').value,$('img5').value].filter(x=>x.trim()!=='');
   $('imgCount').value = arr.length;
   return arr;
 }
-function saveRecord() {
-  const room = $('room').value;
-  if(!room) { alert('اختر رقم الغرفة أولاً'); return; }
-  const rec = {
-    inspector:$('inspector').value.trim(),
-    date:$('inspectionDate').value,
-    floor:$('floor').value,
-    room,
-    door:$('door').value,
-    wall:$('wall').value,
-    humidity:$('humidity').value,
-    screen:$('screen').value,
-    water:$('water').value,
-    exhaust:$('exhaust').value,
-    ac:$('ac').value,
-    action:$('actionStatus').value,
-    ticket:$('ticketNo').value.trim(),
-    recheck:$('recheck').value,
-    closeDate:$('closeDate').value,
-    notes:$('notes').value.trim(),
-    photos:photoCount(),
-    updatedAt:new Date().toISOString()
-  };
-  const rows = getRecords();
-  const i = rows.findIndex(r => r.room === room);
-  if(i >= 0) rows[i] = rec; else rows.push(rec);
-  setRecords(rows);
-  renderAll();
-  alert('تم حفظ السجل');
+function chip(v){
+  const cls = 'c-' + String(v || 'لم يفحص').replace(/\s+/g,'');
+  return `<span class="chip ${cls}">${v || 'لم يفحص'}</span>`;
 }
-function clearForm() {
+function clearForm(){
   $('inspectionDate').value = today();
   $('floor').value = '';
   $('room').value = '';
+  $('inspector').value = currentUser?.displayName || '';
   ['door','wall','humidity','screen','water','exhaust','ac'].forEach(id => $(id).value='لم يفحص');
   $('actionStatus').value = 'بدون إجراء';
   $('ticketNo').value = '';
@@ -482,23 +515,36 @@ function clearForm() {
   ['img1','img2','img3','img4','img5'].forEach(id => $(id).value='');
   $('imgCount').value = '0';
 }
-function filteredRecords() {
-  const ff = $('filterFloor').value;
-  const q = $('searchText').value.trim().toLowerCase();
-  return getRecords()
-    .filter(r => !ff || r.floor === ff)
-    .filter(r => !q || [r.room,r.ticket,r.notes,r.inspector].join(' ').toLowerCase().includes(q))
-    .sort((a,b)=>Number(a.room)-Number(b.room));
+function fillForm(data){
+  $('inspectionDate').value = data.date || today();
+  $('floor').value = data.floor || '';
+  $('room').value = data.room || '';
+  $('inspector').value = data.inspector || '';
+  $('door').value = data.door || 'لم يفحص';
+  $('wall').value = data.wall || 'لم يفحص';
+  $('humidity').value = data.humidity || 'لم يفحص';
+  $('screen').value = data.screen || 'لم يفحص';
+  $('water').value = data.water || 'لم يفحص';
+  $('exhaust').value = data.exhaust || 'لم يفحص';
+  $('ac').value = data.ac || 'لم يفحص';
+  $('actionStatus').value = data.action || 'بدون إجراء';
+  $('ticketNo').value = data.ticket || '';
+  $('recheck').value = data.recheck || 'لا';
+  $('closeDate').value = data.closeDate || '';
+  $('notes').value = data.notes || '';
+  const photos = data.photos || [];
+  ['img1','img2','img3','img4','img5'].forEach((id, i) => $(id).value = photos[i] || '');
+  photoCount();
 }
-function isAffected(r) {
+function isAffected(r){
   return [r.door,r.wall,r.humidity,r.screen,r.water,r.exhaust,r.ac].some(x => affectedStates.includes(x));
 }
-function renderStats(rows) {
-  const inspected = rows.length;
-  const affected = rows.filter(isAffected).length;
-  const closed = rows.filter(r => r.action === 'مغلق').length;
-  const photos = rows.reduce((s,r)=>s+(r.photos?.length || 0),0);
-  const pct = inspected ? (inspected/totalRooms*100) : 0;
+function renderStats(){
+  const inspected = allRows.length;
+  const affected = allRows.filter(isAffected).length;
+  const closed = allRows.filter(r => r.action === 'مغلق').length;
+  const photos = allRows.reduce((s,r)=>s+(r.photos?.length || 0),0);
+  const pct = inspected ? (inspected/TOTAL_ROOMS*100) : 0;
   $('inspectedCount').textContent = inspected;
   $('affectedCount').textContent = affected;
   $('closedCount').textContent = closed;
@@ -506,11 +552,24 @@ function renderStats(rows) {
   $('progressPct').textContent = pct.toFixed(1) + '%';
   $('progressBar').style.width = pct.toFixed(1) + '%';
 }
-function renderTable(rows) {
+function filteredRows(){
+  const ff = $('filterFloor').value;
+  const q = $('searchText').value.trim().toLowerCase();
+  return allRows
+    .filter(r => !ff || r.floor === ff)
+    .filter(r => !q || [r.room,r.ticket,r.notes,r.ownerEmail,r.inspector].join(' ').toLowerCase().includes(q))
+    .sort((a,b)=>Number(a.room)-Number(b.room));
+}
+function canDeleteRow(row){
+  if(!currentUser) return false;
+  return isAdminEmail(currentUser.email) || row.ownerUid === currentUser.uid;
+}
+function renderTable(){
+  const rows = filteredRows();
   const body = $('recordsBody');
   body.innerHTML = '';
-  if(!rows.length) {
-    body.innerHTML = '<tr><td colspan="13">لا توجد سجلات</td></tr>';
+  if(!rows.length){
+    body.innerHTML = '<tr><td colspan="14">لا توجد سجلات</td></tr>';
     return;
   }
   rows.forEach(r => {
@@ -525,57 +584,154 @@ function renderTable(rows) {
       <td>${chip(r.water)}</td>
       <td>${chip(r.exhaust)}</td>
       <td>${chip(r.ac)}</td>
-      <td>${r.action}</td>
+      <td>${r.action || '-'}</td>
       <td>${(r.photos||[]).length}<div class="small">${(r.photos||[]).join('، ') || '-'}</div></td>
+      <td><div class="small">${r.ownerEmail || '-'}</div></td>
       <td>${r.notes || '-'}</td>
-      <td><button class="btn-soft" onclick="deleteRoom('${r.room}')">حذف</button></td>`;
+      <td>
+        <div class="actions" style="justify-content:center;margin:0;">
+          <button class="btn-soft edit-btn" data-room="${r.room}">تعديل</button>
+          ${canDeleteRow(r) ? `<button class="btn-soft delete-btn" data-room="${r.room}">حذف</button>` : ``}
+        </div>
+      </td>`;
     body.appendChild(tr);
   });
+  body.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => {
+    const row = allRows.find(x => x.room === btn.dataset.room);
+    if(row) fillForm(row);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+  body.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', async () => {
+    if(!confirm('حذف سجل الغرفة ' + btn.dataset.room + '؟')) return;
+    try{
+      await deleteDoc(doc(db,'inspections',btn.dataset.room));
+    }catch(e){
+      alert('فشل الحذف: ' + e.message);
+    }
+  }));
 }
-function renderAll() {
-  const all = getRecords();
-  renderStats(all);
-  renderTable(filteredRecords());
-}
-function deleteRoom(room) {
-  if(!confirm('حذف سجل الغرفة ' + room + '؟')) return;
-  setRecords(getRecords().filter(r => r.room !== room));
-  renderAll();
-}
-function clearAll() {
-  if(!confirm('سيتم حذف كل السجلات من هذا المتصفح.')) return;
-  localStorage.removeItem(KEY);
-  renderAll();
-}
-function exportCSV() {
-  const rows = getRecords().sort((a,b)=>Number(a.room)-Number(b.room));
-  const headers = ['اسم المفتش','تاريخ الفحص','الدور','رقم الغرفة','الباب','الجدار','الرطوبة','الشاشة','المياه','الشفط','التكييف','حالة المعالجة','رقم البلاغ','إعادة فحص','تاريخ الإغلاق','ملاحظات','صورة1','صورة2','صورة3','صورة4','صورة5'];
+function exportCSV(){
+  const rows = [...allRows].sort((a,b)=>Number(a.room)-Number(b.room));
+  const headers = ['اسم المفتش','تاريخ الفحص','الدور','رقم الغرفة','الباب','الجدار','الرطوبة','الشاشة','المياه','الشفط','التكييف','حالة المعالجة','رقم البلاغ','إعادة فحص','تاريخ الإغلاق','الملاحظات','المالك','صورة1','صورة2','صورة3','صورة4','صورة5'];
   const csvRows = rows.map(r => [
-    r.inspector,r.date,r.floor,r.room,r.door,r.wall,r.humidity,r.screen,r.water,r.exhaust,r.ac,r.action,r.ticket,r.recheck,r.closeDate,r.notes,
+    r.inspector,r.date,r.floor,r.room,r.door,r.wall,r.humidity,r.screen,r.water,r.exhaust,r.ac,r.action,r.ticket,r.recheck,r.closeDate,r.notes,r.ownerEmail,
     r.photos?.[0]||'',r.photos?.[1]||'',r.photos?.[2]||'',r.photos?.[3]||'',r.photos?.[4]||''
   ]);
   const csv = [headers].concat(csvRows).map(row => row.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'سجل_فحص_الغرف.csv';
+  a.download = 'سجل_فحص_الغرف_firebase.csv';
   a.click();
   URL.revokeObjectURL(a.href);
 }
-function exportJSON() {
-  const blob = new Blob([JSON.stringify(getRecords(), null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'نسخة_احتياطية_فحص_الغرف.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
+async function saveRecord(){
+  if(!currentUser){ alert('سجل دخول أولاً'); return; }
+  const room = $('room').value;
+  if(!room){ alert('اختر رقم الغرفة أولاً'); return; }
+  const data = {
+    room,
+    floor: $('floor').value,
+    inspector: $('inspector').value.trim(),
+    date: $('inspectionDate').value,
+    door: $('door').value,
+    wall: $('wall').value,
+    humidity: $('humidity').value,
+    screen: $('screen').value,
+    water: $('water').value,
+    exhaust: $('exhaust').value,
+    ac: $('ac').value,
+    action: $('actionStatus').value,
+    ticket: $('ticketNo').value.trim(),
+    recheck: $('recheck').value,
+    closeDate: $('closeDate').value,
+    notes: $('notes').value.trim(),
+    photos: photoCount(),
+    ownerUid: currentUser.uid,
+    ownerEmail: currentUser.email || '',
+    updatedAt: serverTimestamp()
+  };
+  try{
+    await setDoc(doc(db,'inspections',room), data, {merge:true});
+    alert('تم حفظ السجل');
+    clearForm();
+  }catch(e){
+    alert('فشل الحفظ: ' + e.message);
+  }
 }
-window.onload = () => {
-  $('inspectionDate').value = today();
-  ['img1','img2','img3','img4','img5'].forEach(id => $(id).addEventListener('input', photoCount));
-  photoCount();
-  renderAll();
-};
+function bindList(){
+  onSnapshot(collection(db,'inspections'), snap => {
+    allRows = snap.docs.map(d => d.data());
+    renderStats();
+    renderTable();
+  }, err => {
+    alert('مشكلة في قراءة البيانات: ' + err.message);
+  });
+}
+
+$('loginBtn').addEventListener('click', async () => {
+  showMsg('loginMsg','','');
+  try{
+    await signInWithEmailAndPassword(auth, $('loginEmail').value.trim(), $('loginPassword').value);
+  }catch(e){
+    showMsg('loginMsg','error','فشل تسجيل الدخول: ' + e.message);
+  }
+});
+$('resetPasswordBtn').addEventListener('click', async () => {
+  showMsg('loginMsg','','');
+  const email = $('loginEmail').value.trim();
+  if(!email){ showMsg('loginMsg','error','اكتب البريد الإلكتروني أولاً'); return; }
+  try{
+    await sendPasswordResetEmail(auth, email);
+    showMsg('loginMsg','ok','تم إرسال رابط إعادة التعيين إلى بريدك');
+  }catch(e){
+    showMsg('loginMsg','error','فشل الإرسال: ' + e.message);
+  }
+});
+$('signupBtn').addEventListener('click', async () => {
+  showMsg('signupMsg','','');
+  const name = $('signupName').value.trim();
+  const email = $('signupEmail').value.trim();
+  const pass = $('signupPassword').value;
+  if(!name || !email || !pass){ showMsg('signupMsg','error','كمل الاسم والبريد وكلمة المرور'); return; }
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    if(name){ await updateProfile(cred.user, {displayName:name}); }
+    showMsg('signupMsg','ok','تم إنشاء الحساب. يمكنك الدخول الآن.');
+  }catch(e){
+    showMsg('signupMsg','error','فشل إنشاء الحساب: ' + e.message);
+  }
+});
+$('logoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+});
+$('saveBtn').addEventListener('click', saveRecord);
+$('clearBtn').addEventListener('click', clearForm);
+$('exportCsvBtn').addEventListener('click', exportCSV);
+$('refreshBtn').addEventListener('click', renderTable);
+$('filterFloor').addEventListener('change', renderTable);
+$('searchText').addEventListener('input', renderTable);
+['img1','img2','img3','img4','img5'].forEach(id => $(id).addEventListener('input', photoCount));
+
+onAuthStateChanged(auth, user => {
+  currentUser = user || null;
+  if(user){
+    $('authView').classList.add('hidden');
+    $('appView').classList.remove('hidden');
+    $('currentUserEmail').textContent = user.email || '';
+    $('currentUserName').textContent = user.displayName || 'مستخدم';
+    $('roleBadge').textContent = isAdminEmail(user.email) ? 'أدمن' : 'مستخدم';
+    $('roleBadge').className = isAdminEmail(user.email) ? 'badge admin' : 'badge';
+    $('inspector').value = user.displayName || '';
+    $('inspectionDate').value = today();
+    bindList();
+  }else{
+    $('appView').classList.add('hidden');
+    $('authView').classList.remove('hidden');
+  }
+});
+
+$('inspectionDate').value = today();
 </script>
 </body>
 </html>
