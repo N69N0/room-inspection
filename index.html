@@ -1,77 +1,29 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>نظام فحص الغرف - Firebase</title>
-<style>
-:root{
-  --bg:#f5f7fb; --card:#ffffff; --text:#172033; --muted:#667085; --line:#e7ecf3;
-  --main:#122033; --accent:#d2a85a; --ok:#166534; --warn:#b45309; --bad:#b91c1c; --soft:#f8fafc;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#f6f8fb,#eef2f7);color:var(--text)}
-.wrap{max-width:1280px;margin:auto;padding:18px}
-.hero{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border-radius:22px;padding:22px;margin-bottom:16px}
-.hero h1{margin:0 0 8px;font-size:32px}
-.hero p{margin:0;color:#dbe3ee;line-height:1.8}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06)}
-.section{padding:18px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}
-.stat{padding:16px;min-height:110px}
-.label{color:var(--muted);font-size:13px;margin-bottom:8px}
-.value{font-size:30px;font-weight:800}
-.sub{font-size:12px;color:var(--muted);margin-top:6px}
-.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}
-h2{margin:0 0 14px;font-size:22px}
-.field{display:flex;flex-direction:column;gap:8px}
-.field label{font-weight:700;font-size:13px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.full{grid-column:1 / -1}
-input, select, textarea, button{font:inherit}
-input, select, textarea{
-  width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;outline:none
-}
-textarea{min-height:96px;resize:vertical}
-button{border:none;border-radius:14px;padding:12px 16px;cursor:pointer;font-weight:700}
-.btn-main{background:var(--main);color:#fff}
-.btn-soft{background:#fff;color:var(--text);border:1px solid var(--line)}
-.btn-accent{background:var(--accent);color:#1f2937}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.box{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:12px}
-.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}
-table{width:100%;border-collapse:collapse;background:#fff}
-th, td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;font-size:13px;vertical-align:top}
-th{background:#f8fafc;position:sticky;top:0}
-.chip{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
-.c-سليم{background:#dcfce7;color:var(--ok)}
-.c-ملاحظة{background:#fef3c7;color:var(--warn)}
-.c-عطل,.c-عاجل{background:#fee2e2;color:var(--bad)}
-.c-لميفحص{background:#eef2f7;color:#475467}
-.note{background:#fff8eb;border:1px solid #f2d7a0;color:#9a6700;border-radius:14px;padding:12px 14px;line-height:1.8;font-size:13px;margin-bottom:12px}
-.small{font-size:12px;color:var(--muted)}
-.progress{margin-top:8px;height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden}
-.progress > span{display:block;width:0%;height:100%;background:linear-gradient(90deg,var(--accent),var(--main))}
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700}
-.badge.admin{background:#dcfce7;color:#166534}
-.hidden{display:none !important}
-#authView{max-width:980px;margin:auto}
-.alert{padding:12px 14px;border-radius:14px;margin-bottom:12px;font-size:13px}
-.alert.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-.alert.ok{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-@media (max-width:1080px){.grid6{grid-template-columns:repeat(3,1fr)}.layout,.grid2{grid-template-columns:1fr}}
-@media (max-width:700px){.grid6{grid-template-columns:repeat(2,1fr)}.row2,.row3{grid-template-columns:1fr}.hero h1{font-size:24px}}
-</style>
+<meta name="theme-color" content="#0f172a">
+<title>نظام فحص الغرف | نسخة الأدمن والأدوار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/hotel-luxury.css">
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
-    <h1>نظام فحص الغرف</h1>
-    <p>نسخة مرتبطة بحسابات دخول. الأدمن له مراجعة كاملة، والمستخدم يضيف ويعدل سجلاته فقط. الصور هنا تُكتب كأسماء أو روابط، وليست رفعًا فعليًا.</p>
+    <div class="hero-head">
+      <div class="hero-copy">
+        <span class="hero-badge">نسخة مطورة: تقسيم أدوار + لوحة أدمن + حظر مستخدمين</span>
+        <h1>نظام فحص الغرف</h1>
+        <p>واجهة عربية مرتبطة بـ Firebase مع تقسيم بصري لكل دور، ولوحة أدمن لإدارة المستخدمين، وسجل تغييرات أساسي. هذه النسخة تطوّر التشغيل اليومي بدون تغيير جوهر قاعدة بياناتك الحالية.</p>
+      </div>
+      <div class="hero-side">
+        <div class="hero-kpi"><span>إجمالي الغرف</span><strong>140</strong></div>
+        <div class="hero-kpi"><span>عدد الأدوار</span><strong>10</strong></div>
+      </div>
+    </div>
   </section>
 
   <div id="authView">
@@ -96,7 +48,7 @@ th{background:#f8fafc;position:sticky;top:0}
       <section class="card section">
         <h2>إنشاء مستخدم جديد</h2>
         <div id="signupMsg"></div>
-        <div class="note">إنشاء حساب للمستخدمين المصرح لهم فقط</div>
+        <div class="note">ينشئ المستخدم حسابه من هنا، ثم يمكن للأدمن حظره أو السماح له بالاستمرار من لوحة الإدارة.</div>
         <div class="field">
           <label>الاسم</label>
           <input id="signupName" type="text" placeholder="اسم المستخدم">
@@ -112,6 +64,7 @@ th{background:#f8fafc;position:sticky;top:0}
         <div class="actions">
           <button class="btn-accent" id="signupBtn">إنشاء حساب</button>
         </div>
+        <div class="small" style="margin-top:12px;">مهم: الحذف النهائي من Firebase Authentication يحتاج Backend أو تنفيذ يدوي من لوحة Firebase، أما هذه النسخة فتدعم الحظر والإدارة من داخل النظام.</div>
       </section>
     </div>
   </div>
@@ -130,17 +83,34 @@ th{background:#f8fafc;position:sticky;top:0}
 
     <div class="grid6">
       <div class="card stat"><div class="label">إجمالي الغرف</div><div class="value">140</div><div class="sub">10 أدوار × 14 غرفة</div></div>
-      <div class="card stat"><div class="label">الغرف المفحوصة</div><div class="value" id="inspectedCount">0</div><div class="sub">المحفوظة في Firebase</div></div>
+      <div class="card stat"><div class="label">الغرف المرئية لك</div><div class="value" id="inspectedCount">0</div><div class="sub">بحسب صلاحية المستخدم</div></div>
       <div class="card stat"><div class="label">نسبة الإنجاز</div><div class="value" id="progressPct">0.0%</div><div class="progress"><span id="progressBar"></span></div></div>
       <div class="card stat"><div class="label">الحالات المتأثرة</div><div class="value" id="affectedCount">0</div><div class="sub">غرف فيها ملاحظة أو عطل أو عاجل</div></div>
       <div class="card stat"><div class="label">الحالات المغلقة</div><div class="value" id="closedCount">0</div><div class="sub">بحسب حالة المعالجة</div></div>
       <div class="card stat"><div class="label">إجمالي الصور</div><div class="value" id="photosCount">0</div><div class="sub">أسماء الصور أو الروابط</div></div>
     </div>
 
+    <section class="card section floor-panel">
+      <div class="panel-head">
+        <div>
+          <h2>تقسيم الغرف حسب الأدوار</h2>
+          <div class="small">اختر الدور لتظهر لك الغرف الخاصة به مع الحالة العامة لكل غرفة. الضغط على أي غرفة يملأ النموذج مباشرة.</div>
+        </div>
+        <div class="floor-summary-inline">
+          <span class="mini-pill">إجمالي الدور: <strong id="floorTotalRooms">14</strong></span>
+          <span class="mini-pill ok">سليم: <strong id="floorOkCount">0</strong></span>
+          <span class="mini-pill warn">ملاحظات: <strong id="floorWarnCount">0</strong></span>
+          <span class="mini-pill bad">أعطال/عاجل: <strong id="floorBadCount">0</strong></span>
+        </div>
+      </div>
+      <div id="floorTabs" class="floor-tabs"></div>
+      <div id="floorRoomGrid" class="room-grid"></div>
+    </section>
+
     <div class="layout">
       <section class="card section">
         <h2>إدخال فحص غرفة</h2>
-        <div class="note">كل غرفة لها سجل واحد محدث. الأدمن يشوف ويعدل الجميع، والمستخدم يعدل سجلاته فقط.</div>
+        <div class="note">إذا كنت مستخدمًا عاديًا فلن تستطيع تعديل سجل غرفة مملوك لمستخدم آخر. الأدمن يملك كامل الصلاحية.</div>
 
         <div class="row2">
           <div class="field">
@@ -166,7 +136,7 @@ th{background:#f8fafc;position:sticky;top:0}
             <label>رقم الغرفة</label>
             <select id="room">
               <option value="">اختر رقم الغرفة</option>
-              <option value="101">101</option>
+<option value="101">101</option>
 <option value="102">102</option>
 <option value="103">103</option>
 <option value="104">104</option>
@@ -312,41 +282,13 @@ th{background:#f8fafc;position:sticky;top:0}
 
         <div class="box" style="margin-top:14px;">
           <div class="row2">
-            <div class="field"><label>الباب</label><select id="door"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
-            <div class="field"><label>الجدار / التشققات</label><select id="wall"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
-            <div class="field"><label>الرطوبة</label><select id="humidity"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
-            <div class="field"><label>الشاشة</label><select id="screen"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
-            <div class="field"><label>المياه / السباكة</label><select id="water"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
-            <div class="field"><label>شفط الحمام</label><select id="exhaust"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
-            <div class="field full"><label>التكييف</label><select id="ac"><option value="لم يفحص">لم يفحص</option>
-<option value="سليم">سليم</option>
-<option value="ملاحظة">ملاحظة</option>
-<option value="عطل">عطل</option>
-<option value="عاجل">عاجل</option></select></div>
+            <div class="field"><label>الباب</label><select id="door"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
+            <div class="field"><label>الجدار / التشققات</label><select id="wall"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
+            <div class="field"><label>الرطوبة</label><select id="humidity"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
+            <div class="field"><label>الشاشة</label><select id="screen"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
+            <div class="field"><label>المياه / السباكة</label><select id="water"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
+            <div class="field"><label>شفط الحمام</label><select id="exhaust"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
+            <div class="field full"><label>التكييف</label><select id="ac"><option value="لم يفحص">لم يفحص</option><option value="سليم">سليم</option><option value="ملاحظة">ملاحظة</option><option value="عطل">عطل</option><option value="عاجل">عاجل</option></select></div>
           </div>
         </div>
 
@@ -448,13 +390,52 @@ th{background:#f8fafc;position:sticky;top:0}
         </div>
       </section>
     </div>
+
+    <section id="adminPanel" class="card section hidden">
+      <div class="panel-head">
+        <div>
+          <h2>لوحة الأدمن</h2>
+          <div class="small">إدارة حالة المستخدمين داخل النظام. الحظر هنا يمنع دخول المستخدم إلى الواجهة، لكنه ليس بديلًا عن Backend للحذف النهائي من Firebase Auth.</div>
+        </div>
+      </div>
+
+      <div class="grid2 admin-grid">
+        <div class="box">
+          <div class="field">
+            <label>بحث بالمستخدمين</label>
+            <input id="userSearch" placeholder="اسم أو بريد">
+          </div>
+          <div class="table-wrap" style="margin-top:12px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>البريد</th>
+                  <th>الصلاحية</th>
+                  <th>الحالة</th>
+                  <th>آخر دخول</th>
+                  <th>السبب</th>
+                  <th>إجراء</th>
+                </tr>
+              </thead>
+              <tbody id="usersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3 class="subhead">سجل التغييرات الأخير</h3>
+          <div id="logList" class="log-list"></div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { getFirestore, doc, setDoc, collection, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, setDoc, collection, onSnapshot, deleteDoc, serverTimestamp, getDoc, updateDoc, addDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlygTCgdvLFBXJzQ7ItVcKSmdAT6i0Aqc",
@@ -465,16 +446,26 @@ const firebaseConfig = {
   appId: "1:509543167455:web:abaf2dfab66838b430006a",
   measurementId: "G-88RDHC0T5E"
 };
-const ADMIN_EMAIL = "cccoccc15@hotmail.com";
+
+const ADMIN_EMAIL = "ccoccc15@hotmail.com";
 const TOTAL_ROOMS = 140;
 const affectedStates = ['ملاحظة','عطل','عاجل'];
+const roomFields = ['door','wall','humidity','screen','water','exhaust','ac'];
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 let allRows = [];
+let allUsers = [];
+let auditRows = [];
 let currentUser = null;
+let currentProfile = null;
+let selectedFloor = '1';
+let ownProfileUnsub = null;
+let logsUnsub = null;
+let usersUnsub = null;
+let inspectionUnsub = null;
 
 const $ = (id) => document.getElementById(id);
 
@@ -490,6 +481,9 @@ function showMsg(elId, type, text){
 function isAdminEmail(email){
   return (email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
 }
+function isAdmin(){
+  return !!currentUser && (isAdminEmail(currentUser.email) || currentProfile?.role === 'admin');
+}
 function photoCount(){
   const arr = [$('img1').value,$('img2').value,$('img3').value,$('img4').value,$('img5').value].filter(x=>x.trim()!=='');
   $('imgCount').value = arr.length;
@@ -501,10 +495,10 @@ function chip(v){
 }
 function clearForm(){
   $('inspectionDate').value = today();
-  $('floor').value = '';
+  $('floor').value = selectedFloor || '';
   $('room').value = '';
   $('inspector').value = currentUser?.displayName || '';
-  ['door','wall','humidity','screen','water','exhaust','ac'].forEach(id => $(id).value='لم يفحص');
+  roomFields.forEach(id => $(id).value='لم يفحص');
   $('actionStatus').value = 'بدون إجراء';
   $('ticketNo').value = '';
   $('recheck').value = 'لا';
@@ -518,13 +512,7 @@ function fillForm(data){
   $('floor').value = data.floor || '';
   $('room').value = data.room || '';
   $('inspector').value = data.inspector || '';
-  $('door').value = data.door || 'لم يفحص';
-  $('wall').value = data.wall || 'لم يفحص';
-  $('humidity').value = data.humidity || 'لم يفحص';
-  $('screen').value = data.screen || 'لم يفحص';
-  $('water').value = data.water || 'لم يفحص';
-  $('exhaust').value = data.exhaust || 'لم يفحص';
-  $('ac').value = data.ac || 'لم يفحص';
+  roomFields.forEach(id => $(id).value = data[id] || 'لم يفحص');
   $('actionStatus').value = data.action || 'بدون إجراء';
   $('ticketNo').value = data.ticket || '';
   $('recheck').value = data.recheck || 'لا';
@@ -534,14 +522,41 @@ function fillForm(data){
   ['img1','img2','img3','img4','img5'].forEach((id, i) => $(id).value = photos[i] || '');
   photoCount();
 }
+function severityLevel(value){
+  if(value === 'عاجل') return 4;
+  if(value === 'عطل') return 3;
+  if(value === 'ملاحظة') return 2;
+  if(value === 'سليم') return 1;
+  return 0;
+}
+function overallStatus(row){
+  if(!row) return 'غير مفحوص';
+  const max = Math.max(...roomFields.map(f => severityLevel(row[f])));
+  if(max === 4) return 'عاجل';
+  if(max === 3) return 'عطل';
+  if(max === 2) return 'ملاحظة';
+  if(max === 1) return 'سليم';
+  return 'غير مفحوص';
+}
+function statusClass(status){
+  if(status === 'سليم') return 'ok';
+  if(status === 'ملاحظة') return 'warn';
+  if(status === 'عطل' || status === 'عاجل') return 'bad';
+  return 'idle';
+}
 function isAffected(r){
-  return [r.door,r.wall,r.humidity,r.screen,r.water,r.exhaust,r.ac].some(x => affectedStates.includes(x));
+  return roomFields.some(x => affectedStates.includes(r[x]));
+}
+function visibleRows(){
+  if(isAdmin()) return allRows;
+  return allRows.filter(r => r.ownerUid === currentUser?.uid);
 }
 function renderStats(){
-  const inspected = allRows.length;
-  const affected = allRows.filter(isAffected).length;
-  const closed = allRows.filter(r => r.action === 'مغلق').length;
-  const photos = allRows.reduce((s,r)=>s+(r.photos?.length || 0),0);
+  const rows = visibleRows();
+  const inspected = rows.length;
+  const affected = rows.filter(isAffected).length;
+  const closed = rows.filter(r => r.action === 'مغلق').length;
+  const photos = rows.reduce((s,r)=>s+(r.photos?.length || 0),0);
   const pct = inspected ? (inspected/TOTAL_ROOMS*100) : 0;
   $('inspectedCount').textContent = inspected;
   $('affectedCount').textContent = affected;
@@ -553,14 +568,79 @@ function renderStats(){
 function filteredRows(){
   const ff = $('filterFloor').value;
   const q = $('searchText').value.trim().toLowerCase();
-  return allRows
+  return visibleRows()
     .filter(r => !ff || r.floor === ff)
     .filter(r => !q || [r.room,r.ticket,r.notes,r.ownerEmail,r.inspector].join(' ').toLowerCase().includes(q))
     .sort((a,b)=>Number(a.room)-Number(b.room));
 }
 function canDeleteRow(row){
   if(!currentUser) return false;
-  return isAdminEmail(currentUser.email) || row.ownerUid === currentUser.uid;
+  return isAdmin() || row.ownerUid === currentUser.uid;
+}
+function formatTime(ts){
+  const date = ts?.toDate ? ts.toDate() : (ts instanceof Date ? ts : null);
+  if(!date) return '-';
+  return date.toLocaleString('ar-SA');
+}
+function floorRooms(floor){
+  const base = Number(floor) * 100;
+  return Array.from({length:14}, (_,i) => String(base + i + 1));
+}
+function getRoomRecord(room){
+  return allRows.find(r => r.room === room) || null;
+}
+function renderFloorTabs(){
+  const wrap = $('floorTabs');
+  wrap.innerHTML = '';
+  for(let i=1;i<=10;i++){
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (String(i) === String(selectedFloor) ? ' active' : '');
+    btn.textContent = 'الدور ' + i;
+    btn.addEventListener('click', () => {
+      selectedFloor = String(i);
+      $('filterFloor').value = selectedFloor;
+      $('floor').value = selectedFloor;
+      renderFloorTabs();
+      renderFloorGrid();
+      renderTable();
+    });
+    wrap.appendChild(btn);
+  }
+}
+function renderFloorGrid(){
+  const grid = $('floorRoomGrid');
+  const rooms = floorRooms(selectedFloor);
+  grid.innerHTML = '';
+  let ok = 0, warn = 0, bad = 0;
+  rooms.forEach(room => {
+    const record = getRoomRecord(room);
+    const status = overallStatus(record);
+    if(status === 'سليم') ok++;
+    else if(status === 'ملاحظة') warn++;
+    else if(status === 'عطل' || status === 'عاجل') bad++;
+
+    const card = document.createElement('button');
+    card.className = `room-card ${statusClass(status)}`;
+    card.innerHTML = `
+      <strong>${room}</strong>
+      <span>${status}</span>
+      <small>${record?.date || 'لا يوجد فحص محفوظ'}</small>
+    `;
+    card.addEventListener('click', () => {
+      selectedFloor = String(selectedFloor);
+      $('floor').value = selectedFloor;
+      $('room').value = room;
+      const existing = getRoomRecord(room);
+      if(existing) fillForm(existing);
+      else clearForm(), $('room').value = room, $('floor').value = selectedFloor;
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+    grid.appendChild(card);
+  });
+  $('floorTotalRooms').textContent = rooms.length;
+  $('floorOkCount').textContent = ok;
+  $('floorWarnCount').textContent = warn;
+  $('floorBadCount').textContent = bad;
 }
 function renderTable(){
   const rows = filteredRows();
@@ -599,16 +679,19 @@ function renderTable(){
     window.scrollTo({top:0,behavior:'smooth'});
   }));
   body.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', async () => {
+    const row = allRows.find(x => x.room === btn.dataset.room);
+    if(!row) return;
     if(!confirm('حذف سجل الغرفة ' + btn.dataset.room + '؟')) return;
     try{
       await deleteDoc(doc(db,'inspections',btn.dataset.room));
+      await addAudit('delete_record', btn.dataset.room, { room: btn.dataset.room });
     }catch(e){
       alert('فشل الحذف: ' + e.message);
     }
   }));
 }
 function exportCSV(){
-  const rows = [...allRows].sort((a,b)=>Number(a.room)-Number(b.room));
+  const rows = [...visibleRows()].sort((a,b)=>Number(a.room)-Number(b.room));
   const headers = ['اسم المفتش','تاريخ الفحص','الدور','رقم الغرفة','الباب','الجدار','الرطوبة','الشاشة','المياه','الشفط','التكييف','حالة المعالجة','رقم البلاغ','إعادة فحص','تاريخ الإغلاق','الملاحظات','صورة1','صورة2','صورة3','صورة4','صورة5'];
   const csvRows = rows.map(r => [
     r.inspector,r.date,r.floor,r.room,r.door,r.wall,r.humidity,r.screen,r.water,r.exhaust,r.ac,r.action,r.ticket,r.recheck,r.closeDate,r.notes,
@@ -618,17 +701,40 @@ function exportCSV(){
   const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'سجل_فحص_الغرف_firebase.csv';
+  a.download = 'سجل_فحص_الغرف_نسخة_الأدمن.csv';
   a.click();
   URL.revokeObjectURL(a.href);
+}
+async function addAudit(action, target, details = {}){
+  if(!currentUser) return;
+  try{
+    await addDoc(collection(db,'auditLogs'), {
+      action,
+      target,
+      details,
+      actorUid: currentUser.uid,
+      actorEmail: currentUser.email || '',
+      actorName: currentUser.displayName || '',
+      createdAt: serverTimestamp()
+    });
+  }catch(err){
+    console.warn('Audit failed', err);
+  }
 }
 async function saveRecord(){
   if(!currentUser){ alert('سجل دخول أولاً'); return; }
   const room = $('room').value;
   if(!room){ alert('اختر رقم الغرفة أولاً'); return; }
+
+  const existing = getRoomRecord(room);
+  if(existing && !isAdmin() && existing.ownerUid && existing.ownerUid !== currentUser.uid){
+    alert('هذا السجل تابع لمستخدم آخر. فقط الأدمن يستطيع تعديله.');
+    return;
+  }
+
   const data = {
     room,
-    floor: $('floor').value,
+    floor: $('floor').value || String(Math.floor(Number(room)/100)),
     inspector: $('inspector').value.trim(),
     date: $('inspectionDate').value,
     door: $('door').value,
@@ -644,28 +750,171 @@ async function saveRecord(){
     closeDate: $('closeDate').value,
     notes: $('notes').value.trim(),
     photos: photoCount(),
-    ownerUid: currentUser.uid,
-    ownerEmail: currentUser.email || '',
+    ownerUid: existing?.ownerUid || currentUser.uid,
+    ownerEmail: existing?.ownerEmail || currentUser.email || '',
     updatedAt: serverTimestamp()
   };
+
   try{
     await setDoc(doc(db,'inspections',room), data, {merge:true});
+    await addAudit(existing ? 'update_record' : 'create_record', room, { room, floor: data.floor });
     alert('تم حفظ السجل');
     clearForm();
+    $('floor').value = selectedFloor;
   }catch(e){
     alert('فشل الحفظ: ' + e.message);
   }
 }
-function bindList(){
-  onSnapshot(collection(db,'inspections'), snap => {
+async function ensureUserProfile(user){
+  const ref = doc(db,'users',user.uid);
+  const snap = await getDoc(ref);
+  const baseData = {
+    uid: user.uid,
+    email: user.email || '',
+    name: user.displayName || '',
+    role: isAdminEmail(user.email) ? 'admin' : (snap.data()?.role || 'user'),
+    updatedAt: serverTimestamp(),
+    lastLoginAt: serverTimestamp()
+  };
+  if(!snap.exists()){
+    await setDoc(ref, {
+      ...baseData,
+      banned: false,
+      bannedReason: '',
+      createdAt: serverTimestamp()
+    }, { merge: true });
+  }else{
+    await setDoc(ref, baseData, { merge: true });
+  }
+  const refreshed = await getDoc(ref);
+  currentProfile = refreshed.data() || null;
+}
+function bindOwnProfile(uid){
+  if(ownProfileUnsub) ownProfileUnsub();
+  ownProfileUnsub = onSnapshot(doc(db,'users',uid), snap => {
+    const data = snap.data();
+    if(!data) return;
+    currentProfile = data;
+    $('roleBadge').textContent = isAdmin() ? 'أدمن' : 'مستخدم';
+    $('roleBadge').className = isAdmin() ? 'badge admin' : 'badge';
+    if(data.banned){
+      alert('تم حظر هذا الحساب من الدخول للنظام.' + (data.bannedReason ? `\nالسبب: ${data.bannedReason}` : ''));
+      signOut(auth);
+    }
+  });
+}
+function bindInspections(){
+  if(inspectionUnsub) inspectionUnsub();
+  inspectionUnsub = onSnapshot(collection(db,'inspections'), snap => {
     allRows = snap.docs.map(d => d.data());
     renderStats();
     renderTable();
+    renderFloorGrid();
   }, err => {
     alert('مشكلة في قراءة البيانات: ' + err.message);
   });
 }
-
+function filteredUsers(){
+  const q = $('userSearch').value.trim().toLowerCase();
+  return allUsers.filter(u => !q || [u.name,u.email,u.role,u.bannedReason].join(' ').toLowerCase().includes(q));
+}
+async function toggleBan(uid, banned){
+  const userDoc = allUsers.find(u => u.uid === uid);
+  if(!userDoc) return;
+  const reason = banned ? (prompt('اكتب سبب الحظر', userDoc.bannedReason || '') || '').trim() : '';
+  try{
+    await updateDoc(doc(db,'users',uid), {
+      banned,
+      bannedReason: banned ? reason : '',
+      bannedAt: banned ? serverTimestamp() : null,
+      updatedAt: serverTimestamp()
+    });
+    await addAudit(banned ? 'ban_user' : 'unban_user', uid, { email: userDoc.email || '', reason });
+  }catch(err){
+    alert('فشل تحديث حالة المستخدم: ' + err.message);
+  }
+}
+function renderUsers(){
+  const body = $('usersBody');
+  body.innerHTML = '';
+  const rows = filteredUsers();
+  if(!rows.length){
+    body.innerHTML = '<tr><td colspan="7">لا يوجد مستخدمون</td></tr>';
+    return;
+  }
+  rows.forEach(u => {
+    const tr = document.createElement('tr');
+    const self = currentUser?.uid === u.uid;
+    tr.innerHTML = `
+      <td>${u.name || '-'}</td>
+      <td>${u.email || '-'}</td>
+      <td>${u.role || 'user'}</td>
+      <td>${u.banned ? '<span class="chip c-عطل">محظور</span>' : '<span class="chip c-سليم">نشط</span>'}</td>
+      <td>${formatTime(u.lastLoginAt)}</td>
+      <td>${u.bannedReason || '-'}</td>
+      <td>
+        ${self ? '<span class="small">هذا حسابك</span>' : `
+          <button class="btn-soft user-action-btn" data-uid="${u.uid}" data-ban="${u.banned ? '0' : '1'}">
+            ${u.banned ? 'فك الحظر' : 'حظر'}
+          </button>
+        `}
+      </td>
+    `;
+    body.appendChild(tr);
+  });
+  body.querySelectorAll('.user-action-btn').forEach(btn => {
+    btn.addEventListener('click', () => toggleBan(btn.dataset.uid, btn.dataset.ban === '1'));
+  });
+}
+function renderLogs(){
+  const wrap = $('logList');
+  wrap.innerHTML = '';
+  if(!auditRows.length){
+    wrap.innerHTML = '<div class="log-item"><strong>لا يوجد سجل بعد</strong><span>عند أول عملية حفظ أو حظر سيظهر السجل هنا.</span></div>';
+    return;
+  }
+  auditRows.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'log-item';
+    div.innerHTML = `
+      <strong>${item.action || '-'}</strong>
+      <span>${item.actorName || item.actorEmail || '-'}</span>
+      <span>${item.target || '-'}</span>
+      <span>${formatTime(item.createdAt)}</span>
+    `;
+    wrap.appendChild(div);
+  });
+}
+function bindAdminData(){
+  $('adminPanel').classList.toggle('hidden', !isAdmin());
+  if(!isAdmin()){
+    if(usersUnsub) usersUnsub(), usersUnsub = null;
+    if(logsUnsub) logsUnsub(), logsUnsub = null;
+    return;
+  }
+  if(usersUnsub) usersUnsub();
+  usersUnsub = onSnapshot(collection(db,'users'), snap => {
+    allUsers = snap.docs.map(d => d.data()).sort((a,b) => (a.email || '').localeCompare(b.email || ''));
+    renderUsers();
+  });
+  if(logsUnsub) logsUnsub();
+  logsUnsub = onSnapshot(query(collection(db,'auditLogs'), orderBy('createdAt','desc'), limit(50)), snap => {
+    auditRows = snap.docs.map(d => d.data());
+    renderLogs();
+  });
+}
+function teardownListeners(){
+  if(ownProfileUnsub) ownProfileUnsub(), ownProfileUnsub = null;
+  if(usersUnsub) usersUnsub(), usersUnsub = null;
+  if(logsUnsub) logsUnsub(), logsUnsub = null;
+  if(inspectionUnsub) inspectionUnsub(), inspectionUnsub = null;
+}
+function updateRoleUI(){
+  $('currentUserEmail').textContent = currentUser?.email || '';
+  $('currentUserName').textContent = currentUser?.displayName || currentProfile?.name || 'مستخدم';
+  $('roleBadge').textContent = isAdmin() ? 'أدمن' : 'مستخدم';
+  $('roleBadge').className = isAdmin() ? 'badge admin' : 'badge';
+}
 $('loginBtn').addEventListener('click', async () => {
   showMsg('loginMsg','','');
   try{
@@ -694,6 +943,17 @@ $('signupBtn').addEventListener('click', async () => {
   try{
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     if(name){ await updateProfile(cred.user, {displayName:name}); }
+    await setDoc(doc(db,'users',cred.user.uid), {
+      uid: cred.user.uid,
+      email,
+      name,
+      role: isAdminEmail(email) ? 'admin' : 'user',
+      banned: false,
+      bannedReason: '',
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      lastLoginAt: serverTimestamp()
+    }, { merge: true });
     showMsg('signupMsg','ok','تم إنشاء الحساب. يمكنك الدخول الآن.');
   }catch(e){
     showMsg('signupMsg','error','فشل إنشاء الحساب: ' + e.message);
@@ -705,30 +965,76 @@ $('logoutBtn').addEventListener('click', async () => {
 $('saveBtn').addEventListener('click', saveRecord);
 $('clearBtn').addEventListener('click', clearForm);
 $('exportCsvBtn').addEventListener('click', exportCSV);
-$('refreshBtn').addEventListener('click', renderTable);
-$('filterFloor').addEventListener('change', renderTable);
+$('refreshBtn').addEventListener('click', () => { renderTable(); renderFloorGrid(); });
+$('filterFloor').addEventListener('change', () => {
+  const value = $('filterFloor').value;
+  if(value) selectedFloor = value;
+  renderFloorTabs();
+  renderFloorGrid();
+  renderTable();
+});
 $('searchText').addEventListener('input', renderTable);
+$('userSearch')?.addEventListener('input', renderUsers);
 ['img1','img2','img3','img4','img5'].forEach(id => $(id).addEventListener('input', photoCount));
+$('room').addEventListener('change', () => {
+  const room = $('room').value;
+  if(room){
+    $('floor').value = String(Math.floor(Number(room) / 100));
+    selectedFloor = $('floor').value;
+    $('filterFloor').value = selectedFloor;
+    renderFloorTabs();
+    renderFloorGrid();
+  }
+});
+$('floor').addEventListener('change', () => {
+  if($('floor').value){
+    selectedFloor = $('floor').value;
+    $('filterFloor').value = selectedFloor;
+    renderFloorTabs();
+    renderFloorGrid();
+  }
+});
 
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async (user) => {
   currentUser = user || null;
+  teardownListeners();
+
   if(user){
-    $('authView').classList.add('hidden');
-    $('appView').classList.remove('hidden');
-    $('currentUserEmail').textContent = user.email || '';
-    $('currentUserName').textContent = user.displayName || 'مستخدم';
-    $('roleBadge').textContent = isAdminEmail(user.email) ? 'أدمن' : 'مستخدم';
-    $('roleBadge').className = isAdminEmail(user.email) ? 'badge admin' : 'badge';
-    $('inspector').value = user.displayName || '';
-    $('inspectionDate').value = today();
-    bindList();
+    try{
+      await ensureUserProfile(user);
+      if(currentProfile?.banned){
+        alert('هذا الحساب محظور من الدخول.');
+        await signOut(auth);
+        return;
+      }
+      $('authView').classList.add('hidden');
+      $('appView').classList.remove('hidden');
+      bindOwnProfile(user.uid);
+      bindInspections();
+      bindAdminData();
+      updateRoleUI();
+      $('inspector').value = user.displayName || currentProfile?.name || '';
+      $('inspectionDate').value = today();
+      $('floor').value = selectedFloor;
+      $('filterFloor').value = selectedFloor;
+      renderFloorTabs();
+      renderFloorGrid();
+      renderTable();
+      renderLogs();
+      renderUsers();
+    }catch(err){
+      alert('تعذر تحميل الحساب: ' + err.message);
+    }
   }else{
+    currentProfile = null;
     $('appView').classList.add('hidden');
     $('authView').classList.remove('hidden');
   }
 });
 
 $('inspectionDate').value = today();
+renderFloorTabs();
+renderFloorGrid();
 </script>
 </body>
 </html>
