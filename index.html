@@ -421,27 +421,56 @@ createdAt:new Date().toLocaleString("ar-SA")
 saveTickets();clearForm();renderAll();
 }
 
-function clearForm(){note.value="";photoBefore.value=""}
-
-function riskClass(r){return r==="عاجل"?"urgent":r==="عالي"?"high":r==="متوسط"?"mid":"low"}
-
 function renderTickets(){
 let q=(search?.value||"").toLowerCase(),st=statusFilter?.value||"";
-let list=tickets.filter(t=>(!q||Object.values(t).join(" ").toLowerCase().includes(q))&&(!st||t.status===st));
+let statuses=["مفتوح","تحت الإجراء","تم إجراء مؤقت","انتظار قطع غيار","انتظار مورد","مؤجل بموافقة الإدارة","تم الحل","مغلق"];
+
+let list=tickets.filter(t=>
+(!q||Object.values(t).join(" ").toLowerCase().includes(q)) &&
+(!st||t.status===st)
+);
+
 ticketsBody.innerHTML=list.map(t=>`
 <tr>
 <td><b>${t.id}</b><br><span class="muted">${t.createdAt}</span></td>
 <td>${t.hotel}</td>
 <td>${t.location}<br><span class="muted">${t.type}</span></td>
-<td>${t.item}</td><td>${t.problem}</td><td>${t.department}</td><td>${t.specialty}</td>
+<td>${t.item}</td>
+<td>${t.problem}</td>
+<td>${t.department}</td>
+<td>${t.specialty}</td>
 <td><span class="pill ${riskClass(t.risk)}">${t.risk}</span></td>
-<td><select onchange="updateStatus('${t.id}',this.value)">${["مفتوح","تحت الإجراء","تم إجراء مؤقت","انتظار قطع غيار","انتظار مورد","مؤجل بموافقة الإدارة","مغلق"].map(s=>`<option ${s===t.status?"selected":""}>${s}</option>`).join("")}</select></td>
-<td><button class="red" onclick="deleteTicket('${t.id}')">حذف</button></td>
-</tr>`).join("");
+<td>
+<select onchange="updateStatus('${t.id}',this.value)">
+${statuses.map(s=>`<option ${t.status===s?"selected":""}>${s}</option>`).join("")}
+</select>
+${t.actionNote?`<div class="muted">الإجراء: ${t.actionNote}</div>`:""}
+${t.closedAt?`<div class="muted">الإغلاق: ${t.closedAt}</div>`:""}
+</td>
+<td>
+<button class="red" onclick="deleteTicket('${t.id}')">حذف</button>
+</td>
+</tr>
+`).join("");
 }
 
-function updateStatus(id,status){let t=tickets.find(x=>x.id===id);if(t){t.status=status;saveTickets();renderAll()}}
-function deleteTicket(id){if(confirm("حذف البلاغ؟")){tickets=tickets.filter(t=>t.id!==id);saveTickets();renderAll()}}
+function updateStatus(id,status){
+let t=tickets.find(x=>x.id===id);
+if(!t)return;
+
+t.status=status;
+
+if(status==="تم الحل" || status==="مغلق"){
+let action=prompt("اكتب الإجراء التصحيحي / سبب الإغلاق:");
+if(action!==null && action.trim()){
+t.actionNote=action.trim();
+}
+t.closedAt=new Date().toLocaleString("ar-SA");
+t.closedBy=currentUser ? currentUser.email : "";
+}
+
+saveTickets();
+renderAll();
 
 function renderUsers(){
 usersBody.innerHTML=users.map(u=>`
