@@ -54,17 +54,13 @@ td:first-child{border-right:1px solid var(--line);border-radius:0 13px 13px 0}td
     <label>البريد الإلكتروني</label><input id="regEmail" placeholder="example@email.com">
     <label>كلمة المرور</label><input id="regPass" type="password" placeholder="6 أحرف أو أكثر">
     <label>الفندق</label><select id="regHotel"></select>
-    <label>القسم</label>
-    <select id="regDepartment">
-      <option>الصيانة</option><option>IT</option><option>الجودة</option><option>السلامة HSE</option><option>الهاوسكيبنق</option><option>الإدارة</option>
-    </select>
     <button class="gold" onclick="registerUser()">إنشاء حساب</button>
     <div id="regMsg"></div>
   </div>
 
   <div class="card half">
     <h2>تسجيل الدخول</h2>
-    <label>البريد الإلكتروني</label><input id="loginEmail" value="cccoccc15@hotmail.com">
+    <label>البريد الإلكتروني</label><input id="loginEmail">
     <label>كلمة المرور</label><input id="loginPass" type="password">
     <button onclick="login()">دخول</button>
     <div id="loginMsg"></div>
@@ -317,7 +313,7 @@ function registerUser(){
 let name=regName.value.trim(),email=regEmail.value.trim().toLowerCase(),pass=regPass.value;
 if(!name||!email||pass.length<6){msg("regMsg","اكتب الاسم والبريد وكلمة مرور 6 أحرف أو أكثر.","error");return}
 if(users.find(u=>u.email===email)){msg("regMsg","هذا البريد مسجل مسبقًا.","error");return}
-users.push({name,email,password:pass,hotel:regHotel.value,department:regDepartment.value,role:"pending",status:"pending"});
+users.push({name,email,password:pass,hotel:regHotel.value,department:"بانتظار تحديد الأدمن",role:"pending",status:"pending"});
 saveUsers();logAudit("تسجيل مستخدم",email);
 msg("regMsg","تم إرسال طلبك للإدارة. انتظر الموافقة.");
 regName.value="";regEmail.value="";regPass.value="";
@@ -545,8 +541,12 @@ usersBody.innerHTML=users.map(u=>`
 <tr>
 <td>${u.name}</td><td>${u.email}</td><td>${u.hotel}</td><td>${u.department||"-"}</td><td>${roleName(u.role)}</td><td><span class="pill ${u.status==="pending"?"pending":u.status==="blocked"?"blocked":"low"}">${u.status}</span></td>
 <td>${u.email===ADMIN_EMAIL?"الأدمن الرئيسي":`
-<select onchange="setUserField('${u.email}','department',this.value)">${departments.map(d=>`<option ${u.department===d?"selected":""}>${d}</option>`).join("")}</select>
+<select onchange="setUserField('${u.email}','department',this.value)">
+<option value="بانتظار تحديد الأدمن" ${u.department==="بانتظار تحديد الأدمن"?"selected":""}>بانتظار تحديد الأدمن</option>
+${departments.map(d=>`<option ${u.department===d?"selected":""}>${d}</option>`).join("")}
+</select>
 <select onchange="setUserField('${u.email}','role',this.value)">
+<option value="pending" ${u.role==="pending"?"selected":""}>بانتظار الموافقة</option>
 <option value="inspector" ${u.role==="inspector"?"selected":""}>مفتش</option>
 <option value="assistant" ${u.role==="assistant"?"selected":""}>مساعد مشرف</option>
 <option value="supervisor" ${u.role==="supervisor"?"selected":""}>مشرف</option>
@@ -558,8 +558,8 @@ usersBody.innerHTML=users.map(u=>`
 <button class="gray" onclick="deleteUser('${u.email}')">حذف</button>`}</td>
 </tr>`).join("");
 }
-function setUserField(email,field,value){let u=users.find(x=>x.email===email);if(u){u[field]=value;if(u.status!=="blocked")u.status="approved";saveUsers();logAudit("تعديل مستخدم",`${email} ${field}=${value}`);renderAll()}}
-function approveUser(email){let u=users.find(x=>x.email===email);if(u){if(u.role==="pending")u.role="inspector";u.status="approved";saveUsers();logAudit("موافقة مستخدم",email);renderAll()}}
+function setUserField(email,field,value){let u=users.find(x=>x.email===email);if(u){u[field]=value;if(u.status!=="blocked"&&u.department!=="بانتظار تحديد الأدمن"&&u.role!=="pending")u.status="approved";saveUsers();logAudit("تعديل مستخدم",`${email} ${field}=${value}`);renderAll()}}
+function approveUser(email){let u=users.find(x=>x.email===email);if(u){if(u.department==="بانتظار تحديد الأدمن"){alert("حدد القسم أولاً قبل الموافقة");return}if(u.role==="pending")u.role="inspector";u.status="approved";saveUsers();logAudit("موافقة مستخدم",email);renderAll()}}
 function blockUser(email){let u=users.find(x=>x.email===email);if(u){u.status="blocked";u.role="blocked";saveUsers();logAudit("حظر مستخدم",email);renderAll()}}
 function deleteUser(email){if(email===ADMIN_EMAIL){alert("لا يمكن حذف الأدمن");return}if(confirm("حذف المستخدم؟")){users=users.filter(u=>u.email!==email);saveUsers();logAudit("حذف مستخدم",email);renderAll()}}
 
