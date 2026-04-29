@@ -209,7 +209,7 @@ function saveHotels(){localStorage.setItem("dyarHotelsData",JSON.stringify(hotel
 function init(){
 if(!hotelsData){hotelsData=defaultHotelData();saveHotels()}
 if(!users.find(u=>u.email===ADMIN_EMAIL)){
-users.push({name:"الأدمن الرئيسي",email:ADMIN_EMAIL,password:"",hotel:"كل الفنادق",role:"admin",status:"approved"});
+users.push({name:"الأدمن الرئيسي",email:ADMIN_EMAIL,password:"123456",hotel:"كل الفنادق",role:"admin",status:"approved"});
 saveUsers();
 }
 loadAuthHotels();
