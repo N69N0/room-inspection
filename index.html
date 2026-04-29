@@ -3,1176 +3,247 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>نظام ديار لفحص الفندق والسلامة</title>
-
+<title>نظام ديار لتشغيل وصيانة الفنادق</title>
 <style>
 :root{
-  --dark:#111827;
-  --muted:#64748b;
-  --line:#e5e7eb;
-  --gold:#d6a94f;
-  --green:#16a34a;
-  --red:#dc2626;
-  --blue:#2563eb;
-  --soft:#f8fafc;
+  --dark:#111827;--muted:#64748b;--line:#e5e7eb;--gold:#d6a94f;--green:#16a34a;--red:#dc2626;--blue:#2563eb;--soft:#f8fafc;--orange:#ea580c;--purple:#7c3aed
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Tahoma,Arial,sans-serif;
-  background:linear-gradient(180deg,#f8fafc,#eef2f7);
-  color:var(--dark);
-}
-.wrap{max-width:1350px;margin:auto;padding:18px}
-.hero{
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:white;
-  border-radius:26px;
-  padding:25px;
-  margin-bottom:16px;
-}
-.hero p{color:#dbeafe;line-height:1.8}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-.card{
-  background:white;
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:16px;
-  box-shadow:0 10px 28px rgba(15,23,42,.06);
-}
-.half{grid-column:span 6}
-.side{grid-column:span 4}
-.main{grid-column:span 8}
-.full{grid-column:1/-1}
-label{display:block;font-weight:700;margin:10px 0 6px;font-size:13px}
-input,select,textarea{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:11px;
-  font-family:inherit;
-  background:white;
-}
-textarea{min-height:80px}
-button{
-  border:0;
-  border-radius:13px;
-  padding:11px 14px;
-  font-family:inherit;
-  font-weight:800;
-  cursor:pointer;
-  background:#0f172a;
-  color:white;
-  margin:3px;
-}
-button.gold{background:var(--gold);color:#111827}
-button.green{background:var(--green)}
-button.red{background:var(--red)}
-button.blue{background:var(--blue)}
-button.gray{background:#f1f5f9;color:#111827;border:1px solid var(--line)}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.stat{
-  flex:1;
-  min-width:135px;
-  background:var(--soft);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px;
-}
-.stat b{font-size:26px;display:block}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.tab{background:white;color:#111827;border:1px solid var(--line);border-radius:999px}
-.tab.active{background:#111827;color:white}
-.hidden{display:none!important}
-.muted{color:var(--muted);font-size:13px}
-.note{
-  background:#fff7ed;
-  border:1px solid #fed7aa;
-  color:#9a3412;
-  border-radius:14px;
-  padding:11px;
-  line-height:1.7;
-}
-.success{
-  background:#ecfdf5;
-  border:1px solid #bbf7d0;
-  color:#166534;
-  border-radius:13px;
-  padding:10px;
-  margin-top:10px;
-}
-.error{
-  background:#fef2f2;
-  border:1px solid #fecaca;
-  color:#991b1b;
-  border-radius:13px;
-  padding:10px;
-  margin-top:10px;
-}
-.pill{
-  display:inline-flex;
-  border-radius:999px;
-  padding:6px 9px;
-  font-weight:800;
-  font-size:12px;
-  border:1px solid var(--line);
-}
-.low{background:#ecfdf5;color:#166534;border-color:#bbf7d0}
-.mid{background:#fffbeb;color:#92400e;border-color:#fde68a}
-.high{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
-.urgent{background:#fef2f2;color:#991b1b;border-color:#fecaca}
-.pending{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
-.blocked{background:#f1f5f9;color:#475569;border-color:#cbd5e1}
-.closed{background:#f3f4f6;color:#374151;border-color:#d1d5db}
-.tablewrap{overflow:auto}
-table{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:0 8px;
-  min-width:1150px;
-}
-th{
-  font-size:12px;
-  color:var(--muted);
-  text-align:right;
-  padding:8px;
-}
-td{
-  background:white;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:9px;
-  font-size:13px;
-  vertical-align:top;
-}
-td:first-child{border-right:1px solid var(--line);border-radius:0 13px 13px 0}
-td:last-child{border-left:1px solid var(--line);border-radius:13px 0 0 13px}
-.thumb{
-  max-width:70px;
-  max-height:70px;
-  border-radius:10px;
-  border:1px solid var(--line);
-  display:block;
-}
-@media(max-width:900px){
-  .half,.side,.main{grid-column:1/-1}
-}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#f8fafc,#eef2f7);color:var(--dark)}
+.wrap{max-width:1450px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#0f172a,#1e293b);color:white;border-radius:26px;padding:25px;margin-bottom:16px}
+.hero p{color:#dbeafe;line-height:1.8;margin:0}.hero h1{margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{background:white;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 10px 28px rgba(15,23,42,.06)}
+.half{grid-column:span 6}.side{grid-column:span 4}.main{grid-column:span 8}.full{grid-column:1/-1}.third{grid-column:span 4}.quarter{grid-column:span 3}
+label{display:block;font-weight:700;margin:10px 0 6px;font-size:13px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:13px;padding:11px;font-family:inherit;background:white}textarea{min-height:78px}
+button{border:0;border-radius:13px;padding:10px 13px;font-family:inherit;font-weight:800;cursor:pointer;background:#0f172a;color:white;margin:3px}button.gold{background:var(--gold);color:#111827}button.green{background:var(--green)}button.red{background:var(--red)}button.blue{background:var(--blue)}button.gray{background:#f1f5f9;color:#111827;border:1px solid var(--line)}button.orange{background:var(--orange)}button.purple{background:var(--purple)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.space{justify-content:space-between}.stat{flex:1;min-width:145px;background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:14px}.stat b{font-size:25px;display:block}.stat small{color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tab{background:white;color:#111827;border:1px solid var(--line);border-radius:999px}.tab.active{background:#111827;color:white}.hidden{display:none!important}.muted{color:var(--muted);font-size:13px}.note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:14px;padding:11px;line-height:1.7}.success{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:13px;padding:10px;margin-top:10px}.error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:13px;padding:10px;margin-top:10px}
+.pill{display:inline-flex;border-radius:999px;padding:6px 9px;font-weight:800;font-size:12px;border:1px solid var(--line);margin:1px}.low{background:#ecfdf5;color:#166534;border-color:#bbf7d0}.mid{background:#fffbeb;color:#92400e;border-color:#fde68a}.high{background:#fff7ed;color:#9a3412;border-color:#fed7aa}.urgent{background:#fef2f2;color:#991b1b;border-color:#fecaca}.pending{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.blocked{background:#f1f5f9;color:#475569;border-color:#cbd5e1}.closed{background:#f3f4f6;color:#374151;border-color:#d1d5db}.late{background:#fee2e2;color:#991b1b;border-color:#fecaca}.soon{background:#fff7ed;color:#9a3412;border-color:#fed7aa}.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:separate;border-spacing:0 8px;min-width:1250px}th{font-size:12px;color:var(--muted);text-align:right;padding:8px}td{background:white;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px;font-size:13px;vertical-align:top}td:first-child{border-right:1px solid var(--line);border-radius:0 13px 13px 0}td:last-child{border-left:1px solid var(--line);border-radius:13px 0 0 13px}
+.thumb{max-width:76px;max-height:76px;border-radius:10px;border:1px solid var(--line);display:block;margin:3px 0}.mini{font-size:12px}.dangerBox{border:1px solid #fecaca;background:#fef2f2;color:#991b1b;border-radius:14px;padding:10px;line-height:1.7}.checkgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.checkitem{border:1px solid var(--line);border-radius:12px;padding:8px;background:#f8fafc}.checkitem input{width:auto;margin-left:6px}
+@media(max-width:900px){.half,.side,.main,.third,.quarter{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}table{min-width:1100px}}
+@media print{.noPrint,#authArea,.tabs,button,input,select,textarea{display:none!important}.card{box-shadow:none}.wrap{max-width:100%;padding:0}body{background:white}}
 </style>
 </head>
-
 <body>
 <div class="wrap">
-
 <section class="hero">
-  <h1>نظام ديار لفحص الفندق والسلامة</h1>
-  <p>نسخة تجريبية: تسجيل مستخدمين، موافقة أدمن، إعدادات فنادق، أدوار ومناطق، غرف ومواقع، بلاغات فحص، إجراء تصحيحي، إغلاق، صور، وتصدير Excel. الحفظ الحالي داخل المتصفح فقط.</p>
+  <h1>نظام ديار لتشغيل وصيانة الفنادق</h1>
+  <p>نظام تجريبي متقدم: بلاغات، مواقع فندقية، فني مطلوب تلقائي، SLA، قبل/بعد، تحقق الإغلاق، صلاحيات، سجل تغييرات، تقارير Excel وطباعة PDF. الحفظ الحالي داخل المتصفح فقط.</p>
 </section>
 
 <section class="grid" id="authArea">
   <div class="card half">
-    <h2>إنشاء حساب جديد / Register</h2>
-    <label>اسم المستخدم</label>
-    <input id="regName" placeholder="مثال: نهار">
-
-    <label>البريد الإلكتروني</label>
-    <input id="regEmail" placeholder="example@email.com">
-
-    <label>كلمة المرور</label>
-    <input id="regPass" type="password" placeholder="6 أحرف أو أكثر">
-
-    <label>الفندق</label>
-    <select id="regHotel"></select>
-
-    <button class="gold" onclick="registerUser()">إنشاء حساب</button>
-    <div id="regMsg"></div>
+    <h2>إنشاء حساب جديد</h2>
+    <label>اسم المستخدم</label><input id="regName" placeholder="مثال: مهند">
+    <label>البريد الإلكتروني</label><input id="regEmail" placeholder="example@email.com">
+    <label>كلمة المرور</label><input id="regPass" type="password" placeholder="6 أحرف أو أكثر">
+    <label>الفندق</label><select id="regHotel"></select>
+    <label>القسم</label><select id="regDepartment"><option>الصيانة</option><option>IT</option><option>الجودة</option><option>السلامة HSE</option><option>الهاوسكيبنق</option><option>الإدارة</option></select>
+    <button class="gold" onclick="registerUser()">إنشاء حساب</button><div id="regMsg"></div>
   </div>
-
   <div class="card half">
-    <h2>تسجيل الدخول / Login</h2>
-    <label>البريد الإلكتروني</label>
-    <input id="loginEmail" value="cccoccc15@hotmail.com">
-
-    <label>كلمة المرور</label>
-    <input id="loginPass" type="password" value="123456">
-
-    <button onclick="login()">دخول</button>
-    <div id="loginMsg"></div>
+    <h2>تسجيل الدخول</h2>
+    <label>البريد الإلكتروني</label><input id="loginEmail" value="cccoccc15@hotmail.com">
+    <label>كلمة المرور</label><input id="loginPass" type="password" value="123456">
+    <button onclick="login()">دخول</button><div id="loginMsg"></div>
+    <div class="note" style="margin-top:12px">حساب الأدمن: cccoccc15@hotmail.com / كلمة المرور: 123456</div>
   </div>
 </section>
 
 <section class="card full hidden" id="dashboard">
-  <div class="row" style="justify-content:space-between">
-    <div>
-      <h2>لوحة التحكم</h2>
-      <div class="muted" id="userInfo"></div>
-    </div>
-    <button class="gray" onclick="logout()">تسجيل الخروج</button>
-  </div>
-
+  <div class="row space"><div><h2>لوحة التحكم</h2><div class="muted" id="userInfo"></div></div><button class="gray noPrint" onclick="logout()">تسجيل الخروج</button></div>
   <div class="row">
-    <div class="stat">المتصلون الآن <b id="onlineNow">1</b></div>
-    <div class="stat">إجمالي البلاغات <b id="totalTickets">0</b></div>
-    <div class="stat">بلاغات عاجلة <b id="urgentTickets">0</b></div>
-    <div class="stat">طلبات المستخدمين <b id="pendingUsers">0</b></div>
+    <div class="stat">إجمالي البلاغات <b id="totalTickets">0</b><small>كل البلاغات</small></div>
+    <div class="stat">بلاغات مفتوحة <b id="openTickets">0</b><small>تحتاج متابعة</small></div>
+    <div class="stat">بلاغات عاجلة <b id="urgentTickets">0</b><small>أولوية قصوى</small></div>
+    <div class="stat">بلاغات متأخرة <b id="lateTickets">0</b><small>SLA متجاوز</small></div>
+    <div class="stat">طلبات المستخدمين <b id="pendingUsers">0</b><small>بانتظار موافقة</small></div>
   </div>
 </section>
 
 <section class="card full hidden" id="app">
-  <div class="tabs">
-    <button class="tab active" onclick="showPanel('inspection',this)">الفحص والبلاغات</button>
-    <button class="tab" onclick="showPanel('hotels',this)">إعدادات الفنادق</button>
-    <button class="tab" onclick="showPanel('admin',this)">لوحة الأدمن</button>
+  <div class="tabs noPrint">
+    <button class="tab active" onclick="showPanel('inspection',this)">البلاغات</button>
+    <button class="tab" onclick="showPanel('hotels',this)">المواقع والفنادق</button>
+    <button class="tab" onclick="showPanel('reports',this)">التقارير والمؤشرات</button>
+    <button class="tab" onclick="showPanel('audit',this)">سجل التغييرات</button>
+    <button class="tab" onclick="showPanel('admin',this)">الأدمن</button>
   </div>
 
   <div id="inspectionPanel" class="grid">
-    <section class="card side">
-      <h2>إدخال فحص / بلاغ</h2>
-      <div class="note">اختر الفندق ثم الدور/المنطقة ثم الغرفة/الموقع. إذا ما ظهرت غرف، أضفها من إعدادات الفنادق.</div>
-
-      <label>الفندق</label>
-      <select id="ticketHotel" onchange="loadFloors()"></select>
-
-      <label>الدور / المنطقة</label>
-      <select id="ticketFloor" onchange="loadRooms()"></select>
-
-      <label>الغرفة / الموقع</label>
-      <select id="ticketRoom"></select>
-
-      <label>نوع الفحص</label>
-      <select id="inspectionType" onchange="loadItems()">
-        <option value="room">فحص الغرف</option>
-        <option value="floor">فحص الدور / الممر</option>
-        <option value="elevator">فحص المصاعد</option>
-        <option value="fire">أنظمة الحريق والإنذار</option>
-        <option value="cctv">الكاميرات CCTV</option>
-        <option value="pa">السماعات ونظام النداء</option>
-        <option value="quality">الجودة / المطابخ والكوفي شوب</option>
-        <option value="network">الشبكة والإنترنت / موزع النت</option>
-      </select>
-
-      <label>العنصر</label>
-      <select id="item"></select>
-
-      <label>المشكلة</label>
-      <select id="problem"></select>
-
-      <label>ملاحظة</label>
-      <textarea id="note" placeholder="وصف مختصر"></textarea>
-
-      <label>صورة قبل من الجهاز</label>
-      <input id="photoBefore" type="file" accept="image/*">
-
-      <button class="green" onclick="createTicket()">حفظ البلاغ</button>
-      <button class="gray" onclick="clearForm()">مسح</button>
+    <section class="card side noPrint">
+      <h2>إنشاء بلاغ</h2>
+      <div class="note">النظام يحدد القسم والفني المطلوب والخطورة تلقائيًا حسب المشكلة.</div>
+      <label>الفندق</label><select id="ticketHotel" onchange="loadFloors()"></select>
+      <label>الدور / المنطقة</label><select id="ticketFloor" onchange="loadRooms()"></select>
+      <label>الغرفة / الموقع</label><select id="ticketRoom"></select>
+      <label>نوع الفحص</label><select id="inspectionType" onchange="loadItems()"></select>
+      <label>العنصر</label><select id="item"></select>
+      <label>المشكلة</label><select id="problem"></select>
+      <label>ملاحظة</label><textarea id="note" placeholder="وصف مختصر واضح"></textarea>
+      <label>صورة قبل</label><input id="photoBefore" type="file" accept="image/*">
+      <div id="warehouseChecklistBox" class="hidden">
+        <label>Checklist المستودع</label>
+        <div class="checkgrid">
+          <label class="checkitem"><input type="checkbox" id="ckShelves"> توجد رفوف</label>
+          <label class="checkitem"><input type="checkbox" id="ckShelvesFixed"> الرفوف ثابتة</label>
+          <label class="checkitem"><input type="checkbox" id="ckNoFloorStorage"> لا يوجد تخزين على الأرض</label>
+          <label class="checkitem"><input type="checkbox" id="ckClearAisles"> الممرات مفتوحة</label>
+          <label class="checkitem"><input type="checkbox" id="ckNoOverload"> لا يوجد تحميل زائد</label>
+          <label class="checkitem"><input type="checkbox" id="ckFireExtinguisher"> توجد طفاية مناسبة</label>
+        </div>
+      </div>
+      <button class="green" onclick="createTicket()">حفظ البلاغ</button><button class="gray" onclick="clearForm()">مسح</button>
     </section>
 
     <section class="card main">
-      <div class="row" style="justify-content:space-between">
-        <h2>البلاغات</h2>
-        <button class="blue" onclick="exportTicketsToExcel()">تصدير Excel</button>
+      <div class="row space"><h2>البلاغات</h2><div class="noPrint"><button class="blue" onclick="exportTicketsToExcel()">تصدير Excel</button><button class="purple" onclick="window.print()">طباعة / PDF</button></div></div>
+      <div class="row noPrint">
+        <input id="search" placeholder="بحث عام..." oninput="renderTickets()">
+        <select id="statusFilter" onchange="renderTickets()"><option value="">كل الحالات</option></select>
+        <select id="deptFilter" onchange="renderTickets()"><option value="">كل الأقسام</option><option>الصيانة</option><option>IT</option><option>الجودة</option><option>السلامة HSE</option><option>الهاوسكيبنق</option></select>
+        <select id="riskFilter" onchange="renderTickets()"><option value="">كل الخطورة</option><option>عاجل</option><option>عالي</option><option>متوسط</option><option>منخفض</option></select>
       </div>
-
-      <div class="row">
-        <input id="search" placeholder="بحث..." oninput="renderTickets()">
-        <select id="statusFilter" onchange="renderTickets()">
-          <option value="">كل الحالات</option>
-          <option>مفتوح</option>
-          <option>تحت الإجراء</option>
-          <option>تم إجراء مؤقت</option>
-          <option>انتظار قطع غيار</option>
-          <option>انتظار مورد</option>
-          <option>مؤجل بموافقة الإدارة</option>
-          <option>تم الحل</option>
-          <option>مغلق</option>
-        </select>
-      </div>
-
-      <div class="tablewrap">
-        <table>
-          <thead>
-            <tr>
-              <th>رقم البلاغ</th>
-              <th>الفندق</th>
-              <th>الموقع</th>
-              <th>العنصر</th>
-              <th>المشكلة</th>
-              <th>القسم</th>
-              <th>التخصص</th>
-              <th>الخطورة</th>
-              <th>الحالة</th>
-              <th>الصورة</th>
-              <th>إجراء</th>
-            </tr>
-          </thead>
-          <tbody id="ticketsBody"></tbody>
-        </table>
-      </div>
+      <div class="tablewrap"><table><thead><tr><th>البلاغ</th><th>الموقع</th><th>المشكلة</th><th>القسم</th><th>الفني المطلوب</th><th>الخطورة</th><th>SLA</th><th>الحالة</th><th>صور</th><th>إجراء</th></tr></thead><tbody id="ticketsBody"></tbody></table></div>
     </section>
   </div>
 
   <div id="hotelsPanel" class="hidden">
     <section class="card">
-      <h2>إعدادات الفنادق / Hotel Setup</h2>
-      <div class="note">هنا تضيف الفندق ثم الأدوار/المناطق والغرف/المواقع حسب الواقع.</div>
-
+      <h2>إعدادات الفنادق والمواقع</h2>
       <div class="grid">
-        <div class="card side">
-          <h3>إضافة فندق</h3>
-          <label>اسم الفندق</label>
-          <input id="newHotelName" placeholder="مثال: فندق ديار السلام">
-          <button class="blue" onclick="addHotel()">إضافة فندق</button>
-        </div>
-
-        <div class="card side">
-          <h3>إضافة دور / منطقة</h3>
-          <label>الفندق</label>
-          <select id="setupHotel"></select>
-          <label>اسم الدور أو المنطقة</label>
-          <input id="newFloorName" placeholder="مثال: الدور 1 / B1 / السطح">
-          <button class="blue" onclick="addFloor()">إضافة دور / منطقة</button>
-        </div>
-
-        <div class="card side">
-          <h3>إضافة غرف / مواقع</h3>
-          <label>الفندق</label>
-          <select id="roomHotel" onchange="loadSetupFloors()"></select>
-          <label>الدور / المنطقة</label>
-          <select id="roomFloor"></select>
-          <label>الغرف أو المواقع</label>
-          <input id="roomsInput" placeholder="101-114 أو 101,102,105">
-          <button class="green" onclick="addRooms()">إضافة</button>
-        </div>
+        <div class="card third"><h3>إضافة فندق</h3><label>اسم الفندق</label><input id="newHotelName" placeholder="فندق جديد"><button class="blue" onclick="addHotel()">إضافة</button></div>
+        <div class="card third"><h3>إضافة دور / منطقة</h3><label>الفندق</label><select id="setupHotel"></select><label>الدور / المنطقة</label><input id="newFloorName" placeholder="B1 / B2 / السطح / الدور 3"><button class="blue" onclick="addFloor()">إضافة</button></div>
+        <div class="card third"><h3>إضافة مواقع</h3><label>الفندق</label><select id="roomHotel" onchange="loadSetupFloors()"></select><label>الدور / المنطقة</label><select id="roomFloor"></select><label>غرف / مواقع</label><input id="roomsInput" placeholder="101-114 أو غرفة المضخات, مستودع B1"><button class="green" onclick="addRooms()">إضافة</button><button class="orange" onclick="addQuickServiceLocations()">إضافة مواقع خدمات جاهزة</button></div>
       </div>
-
-      <h3>قائمة الفنادق</h3>
-      <div id="hotelsList"></div>
+      <h3>قائمة الفنادق</h3><div id="hotelsList"></div>
     </section>
+  </div>
+
+  <div id="reportsPanel" class="hidden">
+    <section class="card"><h2>التقارير والمؤشرات</h2><div id="reportCards" class="row"></div><div class="tablewrap"><table><thead><tr><th>المؤشر</th><th>القيمة</th></tr></thead><tbody id="reportBody"></tbody></table></div></section>
+  </div>
+
+  <div id="auditPanel" class="hidden">
+    <section class="card"><h2>سجل التغييرات</h2><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>المستخدم</th><th>العملية</th><th>التفاصيل</th></tr></thead><tbody id="auditBody"></tbody></table></div></section>
   </div>
 
   <div id="adminPanel" class="hidden">
-    <section class="card">
-      <h2>إدارة المستخدمين / Users</h2>
-      <div class="tablewrap">
-        <table>
-          <thead>
-            <tr>
-              <th>الاسم</th>
-              <th>البريد</th>
-              <th>الفندق</th>
-              <th>الدور</th>
-              <th>الحالة</th>
-              <th>إجراء</th>
-            </tr>
-          </thead>
-          <tbody id="usersBody"></tbody>
-        </table>
-      </div>
-    </section>
+    <section class="card"><h2>إدارة المستخدمين</h2><div class="tablewrap"><table><thead><tr><th>الاسم</th><th>البريد</th><th>الفندق</th><th>القسم</th><th>الدور</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="usersBody"></tbody></table></div></section>
   </div>
 </section>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
 <script>
-const ADMIN_EMAIL = "cccoccc15@hotmail.com";
-const ADMIN_PASSWORD = "123456";
-
-const ticketStatuses = [
-  "مفتوح",
-  "تحت الإجراء",
-  "تم إجراء مؤقت",
-  "انتظار قطع غيار",
-  "انتظار مورد",
-  "مؤجل بموافقة الإدارة",
-  "تم الحل",
-  "مغلق"
-];
-
-const defaultHotels = [
-  "فندق ديار السلام",
-  "فندق ديار التقوى",
-  "فندق ديار واحة النزيل",
-  "فندق ديار المدينة",
-  "فندق ديار السلام الفضي",
-  "فندق ديار الهدى",
-  "فندق ديار النخيل",
-  "فندق ديار طيبة",
-  "فندق ديار الحبيب",
-  "فندق فرج المدينة",
-  "فندق بلانتي",
-  "فندق بلانتي 2",
-  "فندق كاسيل"
-];
-
-const inspectionData = {
-  room:{
-    "باب الغرفة والقفل":["كسر في الباب","القفل لا يعمل","الباب لا يغلق جيدًا"],
-    "الجدران / الرطوبة":["تشققات","رطوبة","آثار تسريب"],
-    "السقف":["تشقق","رطوبة","تلف في الجبس"],
-    "التكييف":["لا يعمل","تبريد ضعيف","تسريب ماء"],
-    "الكهرباء والأفياش":["فيش لا يعمل","التماس","أسلاك مكشوفة"],
-    "النظافة العامة":["اتساخ","رائحة كريهة","حشرات"],
-    "كاشف الدخان":["غير موجود","لا يعمل","مغطى"],
-    "مرشات الحريق":["محجوب","مكسور","يوجد تسريب"]
-  },
-  floor:{
-    "طفايات الحريق":["غير موجودة","منتهية","محجوبة"],
-    "الهوزريل":["محجوب","يوجد تسريب"],
-    "مخرج الطوارئ":["مقفل","محجوب","لا يفتح"],
-    "إنارة الطوارئ":["لا تعمل","ضعيفة"],
-    "الرخام / الأرضيات":["كسر","انزلاق","خطر تعثر"]
-  },
-  elevator:{
-    "أبواب المصعد":["تتأخر","لا تغلق جيدًا","تعليق"],
-    "إضاءة المصعد":["لا تعمل","ترمش"],
-    "جرس الطوارئ":["لا يعمل","يحتاج اختبار"],
-    "توقف المصعد مع مستوى الدور":["فرق بسيط","فرق واضح يسبب تعثر"]
-  },
-  fire:{
-    "لوحة إنذار الحريق الرئيسية":["يوجد Fault","Zone معطل","الشاشة لا تعمل"],
-    "طابعة إنذار الحريق":["لا تعمل","لا يوجد ورق"],
-    "كاشف الدخان":["مغطى","لا يعمل","متسخ"],
-    "زر الإنذار اليدوي":["محجوب","الزجاج مكسور"],
-    "جرس الإنذار":["لا يعمل","الصوت ضعيف"]
-  },
-  cctv:{
-    "شاشات المراقبة":["لا تعمل","الصورة غير واضحة","بعض القنوات لا تظهر"],
-    "كاميرات الفندق":["لا تعمل","العدسة متسخة","زاوية التصوير غير مناسبة","الكاميرا محجوبة"]
-  },
-  pa:{
-    "السماعات ونظام النداء":["السماعة لا تعمل","الصوت ضعيف","الصوت مشوش","الصوت مرتفع ومزعج","لا يوجد صوت في هذا الدور","نظام النداء لا يعمل","السماعة مكسورة"]
-  },
-  quality:{
-    "المطابخ والكوفي شوب":["المطبخ غير نظيف","روائح غير مقبولة","وجود حشرات","مواد غذائية منتهية الصلاحية","تخزين غير صحيح","درجة حرارة الثلاجة غير مناسبة","أدوات التحضير غير نظيفة","العامل لا يرتدي قفازات أو غطاء رأس"]
-  },
-  network:{
-    "الشبكة والإنترنت":["ضعف الإنترنت","انقطاع الإنترنت","الواي فاي لا يظهر","موزع النت لا يعمل","السويتش حرارته عالية","أسلاك شبكة مكشوفة","كابلات غير مرتبة","كابينة الشبكة مفتوحة","نقطة شبكة لا تعمل"]
-  }
+const ADMIN_EMAIL="cccoccc15@hotmail.com";
+const ADMIN_PASSWORD="123456";
+const departments=["الصيانة","IT","الجودة","السلامة HSE","الهاوسكيبنق","الإدارة"];
+const ticketStatuses=["مفتوح","تحت المعاينة","تحت الإجراء","تم إجراء مؤقت","انتظار قطع غيار","انتظار مورد","مؤجل بموافقة الإدارة","تم الحل","بانتظار التحقق","مغلق","مرفوض / غير صحيح"];
+const defaultHotels=["فندق ديار السلام","فندق ديار التقوى","فندق ديار واحة النزيل","فندق ديار المدينة","فندق ديار السلام الفضي","فندق ديار الهدى","فندق ديار النخيل","فندق ديار طيبة","فندق ديار الحبيب","فندق فرج المدينة","فندق بلانتي","فندق بلانتي 2","فندق كاسيل"];
+const inspectionData={
+room:{"باب الغرفة والقفل":["كسر في الباب","خدش في الباب","القفل لا يعمل","الباب لا يغلق جيدًا","مقبض مكسور"],"الجدران / الرطوبة":["تشققات","رطوبة","آثار تسريب","دهان تالف"],"السقف والجبس":["تشقق","رطوبة","تلف في الجبس","سقف مستعار متضرر"],"الزجاج والمرايا":["زجاج مكسور","مرآة مكسورة","خدش في الزجاج"],"الرخام / الأرضيات":["رخام مكسور","بلاط مكسور","خطر تعثر","انزلاق"],"التكييف":["لا يعمل","تبريد ضعيف","تسريب ماء","صوت مزعج"],"الكهرباء والأفياش":["فيش لا يعمل","التماس","أسلاك مكشوفة","مفتاح لا يعمل"],"الإنارة":["لمبة لا تعمل","سبوت لا يعمل","إنارة ضعيفة"],"النظافة العامة":["اتساخ","رائحة كريهة","حشرات"],"كاشف الدخان":["غير موجود","لا يعمل","مغطى"],"مرشات الحريق":["محجوب","مكسور","يوجد تسريب"]},
+floor:{"طفايات الحريق":["غير موجودة","منتهية","محجوبة"],"الهوزريل":["محجوب","يوجد تسريب","لا يعمل"],"مخرج الطوارئ":["مقفل","محجوب","لا يفتح"],"إنارة الطوارئ":["لا تعمل","ضعيفة"],"الرخام / الأرضيات":["رخام مكسور","كسر","انزلاق","خطر تعثر"]},
+elevator:{"المصاعد":["أبواب المصعد تتأخر","لا تغلق جيدًا","تعليق","جرس الطوارئ لا يعمل","فرق واضح يسبب تعثر"]},
+fire:{"أنظمة الحريق والإنذار":["يوجد Fault","Zone معطل","الشاشة لا تعمل","طابعة الإنذار لا تعمل","كاشف الدخان مغطى","زر الإنذار محجوب","جرس الإنذار لا يعمل"]},
+cctv:{"الكاميرات CCTV":["كاميرا لا تعمل","الصورة غير واضحة","العدسة متسخة","زاوية التصوير غير مناسبة","الكاميرا محجوبة","شاشة المراقبة لا تعمل"]},
+pa:{"السماعات ونظام النداء":["السماعة لا تعمل","الصوت ضعيف","الصوت مشوش","الصوت مرتفع ومزعج","لا يوجد صوت في هذا الدور","نظام النداء لا يعمل","السماعة مكسورة"]},
+quality:{"المطابخ والكوفي شوب":["المطبخ غير نظيف","روائح غير مقبولة","وجود حشرات","مواد غذائية منتهية الصلاحية","تخزين غير صحيح","درجة حرارة الثلاجة غير مناسبة","أدوات التحضير غير نظيفة","العامل لا يرتدي قفازات أو غطاء رأس","ثلاجة لا تعمل","فريزر لا يعمل"]},
+network:{"الشبكة والإنترنت":["ضعف الإنترنت","انقطاع الإنترنت","الواي فاي لا يظهر","موزع النت لا يعمل","السويتش حرارته عالية","أسلاك شبكة مكشوفة","كابلات غير مرتبة","كابينة الشبكة مفتوحة","نقطة شبكة لا تعمل"]},
+warehouse:{"المستودعات والتخزين":["لا توجد رفوف","رفوف غير ثابتة","تخزين على الأرض","تحميل زائد على الرفوف","تكدس عشوائي","انسداد ممرات الحركة","مواد خطرة مخزنة بشكل غير آمن","لا توجد طفاية مناسبة"]},
+services:{"غرف الخدمات":["غرفة المضخات تحتاج صيانة","غرفة الكهرباء غير منظمة","غرفة المولد بها تسريب","غرفة الديزل غير آمنة","غرفة المصاعد بها عوائق","غرفة الشبكة غير مرتبة","تهوية ضعيفة"]},
+parking:{"مواقف السيارات":["إنارة ضعيفة","تسريب في الموقف","أرضية مكسورة","مخرج طوارئ محجوب","لوحات إرشادية غير واضحة"]}
 };
-
-let currentUser = null;
-let users = safeJson(localStorage.getItem("dyarUsers"), []);
-let tickets = safeJson(localStorage.getItem("dyarTickets"), []);
-let hotelsData = safeJson(localStorage.getItem("dyarHotelsData"), null);
-
-function safeJson(value, fallback){
-  try{
-    return value ? JSON.parse(value) : fallback;
-  }catch(e){
-    return fallback;
-  }
-}
-
-function defaultHotelData(){
-  return defaultHotels.map(h => ({
-    name:h,
-    floors:[
-      {name:"الدور 1",rooms:[]},
-      {name:"الدور 2",rooms:[]}
-    ]
-  }));
-}
-
-function saveUsers(){
-  localStorage.setItem("dyarUsers", JSON.stringify(users));
-}
-
-function saveTickets(){
-  localStorage.setItem("dyarTickets", JSON.stringify(tickets));
-}
-
-function saveHotels(){
-  localStorage.setItem("dyarHotelsData", JSON.stringify(hotelsData));
-}
-
-function init(){
-  if(!hotelsData){
-    hotelsData = defaultHotelData();
-    saveHotels();
-  }
-
-  let admin = users.find(u => u.email === ADMIN_EMAIL);
-
-  if(!admin){
-    users.push({
-      name:"الأدمن الرئيسي",
-      email:ADMIN_EMAIL,
-      password:ADMIN_PASSWORD,
-      hotel:"كل الفنادق",
-      role:"admin",
-      status:"approved",
-      department:"الإدارة"
-    });
-    saveUsers();
-  }else{
-    admin.password = ADMIN_PASSWORD;
-    admin.role = "admin";
-    admin.status = "approved";
-    admin.hotel = "كل الفنادق";
-    saveUsers();
-  }
-
-  loadAuthHotels();
-  loadTicketHotels();
-  loadSetupHotels();
-  loadItems();
-  renderAll();
-}
-
-function getHotelNames(){
-  return hotelsData.map(h => h.name);
-}
-
-function selectedHotel(name){
-  return hotelsData.find(h => h.name === name);
-}
-
-function loadAuthHotels(){
-  regHotel.innerHTML = getHotelNames().map(h => `<option>${h}</option>`).join("");
-}
-
-function loadTicketHotels(){
-  ticketHotel.innerHTML = getHotelNames().map(h => `<option>${h}</option>`).join("");
-  loadFloors();
-}
-
-function loadSetupHotels(){
-  setupHotel.innerHTML = getHotelNames().map(h => `<option>${h}</option>`).join("");
-  roomHotel.innerHTML = getHotelNames().map(h => `<option>${h}</option>`).join("");
-  loadSetupFloors();
-}
-
-function loadFloors(){
-  let h = selectedHotel(ticketHotel.value);
-  ticketFloor.innerHTML = (h?.floors || []).map(f => `<option>${f.name}</option>`).join("");
-  loadRooms();
-}
-
-function loadRooms(){
-  let h = selectedHotel(ticketHotel.value);
-  let f = (h?.floors || []).find(x => x.name === ticketFloor.value);
-  ticketRoom.innerHTML = (f?.rooms || []).map(r => `<option>${r}</option>`).join("");
-}
-
-function loadSetupFloors(){
-  let h = selectedHotel(roomHotel.value);
-  roomFloor.innerHTML = (h?.floors || []).map(f => `<option>${f.name}</option>`).join("");
-}
-
-function msg(id,text,type="success"){
-  document.getElementById(id).innerHTML = `<div class="${type}">${text}</div>`;
-}
-
-function registerUser(){
-  let name = regName.value.trim();
-  let email = regEmail.value.trim().toLowerCase();
-  let pass = regPass.value;
-
-  if(!name || !email || pass.length < 6){
-    msg("regMsg","اكتب الاسم والبريد وكلمة مرور 6 أحرف أو أكثر.","error");
-    return;
-  }
-
-  if(users.find(u => u.email === email)){
-    msg("regMsg","هذا البريد مسجل مسبقًا.","error");
-    return;
-  }
-
-  users.push({
-    name,
-    email,
-    password:pass,
-    hotel:regHotel.value,
-    role:"pending",
-    status:"pending",
-    department:"غير محدد"
-  });
-
-  saveUsers();
-
-  msg("regMsg","تم إرسال طلبك للإدارة. انتظر الموافقة.");
-
-  regName.value = "";
-  regEmail.value = "";
-  regPass.value = "";
-
-  renderAll();
-}
-
-function login(){
-  let email = loginEmail.value.trim().toLowerCase();
-  let pass = loginPass.value;
-  let user = users.find(u => u.email === email);
-
-  if(!user){
-    msg("loginMsg","الحساب غير موجود.","error");
-    return;
-  }
-
-  if(user.password !== pass){
-    msg("loginMsg","كلمة المرور غير صحيحة.","error");
-    return;
-  }
-
-  if(user.status === "blocked"){
-    msg("loginMsg","هذا الحساب محظور.","error");
-    return;
-  }
-
-  if(user.status !== "approved"){
-    msg("loginMsg","حسابك بانتظار موافقة الإدارة.","error");
-    return;
-  }
-
-  currentUser = user;
-
-  authArea.classList.add("hidden");
-  dashboard.classList.remove("hidden");
-  app.classList.remove("hidden");
-
-  userInfo.textContent = `${user.name} - ${user.email} - ${roleName(user.role)} - ${user.hotel}`;
-
-  renderAll();
-}
-
-function logout(){
-  currentUser = null;
-  location.reload();
-}
-
-function roleName(role){
-  return {
-    admin:"أدمن رئيسي",
-    manager:"مدير",
-    viewer:"مشاهدة فقط",
-    supervisor:"مشرف",
-    assistant:"مساعد مشرف",
-    inspector:"مفتش",
-    pending:"بانتظار الموافقة",
-    blocked:"محظور"
-  }[role] || role;
-}
-
-function showPanel(panel,btn){
-  if((panel === "admin" || panel === "hotels") && (!currentUser || currentUser.role !== "admin")){
-    alert("هذه الصفحة للأدمن الرئيسي فقط");
-    return;
-  }
-
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  btn.classList.add("active");
-
-  inspectionPanel.classList.toggle("hidden", panel !== "inspection");
-  hotelsPanel.classList.toggle("hidden", panel !== "hotels");
-  adminPanel.classList.toggle("hidden", panel !== "admin");
-
-  renderAll();
-}
-
-function addHotel(){
-  let name = newHotelName.value.trim();
-
-  if(!name){
-    alert("اكتب اسم الفندق");
-    return;
-  }
-
-  if(hotelsData.find(h => h.name === name)){
-    alert("الفندق موجود مسبقًا");
-    return;
-  }
-
-  hotelsData.push({name,floors:[]});
-  saveHotels();
-
-  newHotelName.value = "";
-
-  loadAuthHotels();
-  loadTicketHotels();
-  loadSetupHotels();
-  renderHotels();
-}
-
-function addFloor(){
-  let hotel = selectedHotel(setupHotel.value);
-  let name = newFloorName.value.trim();
-
-  if(!hotel || !name){
-    alert("اختر الفندق واكتب الدور/المنطقة");
-    return;
-  }
-
-  if(hotel.floors.find(f => f.name === name)){
-    alert("الدور/المنطقة موجودة");
-    return;
-  }
-
-  hotel.floors.push({name,rooms:[]});
-  saveHotels();
-
-  newFloorName.value = "";
-
-  loadTicketHotels();
-  loadSetupHotels();
-  renderHotels();
-}
-
-function parseRooms(text){
-  text = text.trim();
-
-  if(!text) return [];
-
-  if(text.includes("-")){
-    let [a,b] = text.split("-").map(x => parseInt(x.trim(),10));
-
-    if(!isNaN(a) && !isNaN(b) && b >= a){
-      let arr = [];
-      for(let i=a;i<=b;i++){
-        arr.push(String(i));
-      }
-      return arr;
-    }
-  }
-
-  return text.split(",").map(x => x.trim()).filter(Boolean);
-}
-
-function addRooms(){
-  let hotel = selectedHotel(roomHotel.value);
-  let floor = hotel?.floors.find(f => f.name === roomFloor.value);
-  let rooms = parseRooms(roomsInput.value);
-
-  if(!hotel || !floor || rooms.length === 0){
-    alert("اختر الفندق والدور واكتب الغرف");
-    return;
-  }
-
-  rooms.forEach(r => {
-    if(!floor.rooms.includes(r)){
-      floor.rooms.push(r);
-    }
-  });
-
-  saveHotels();
-
-  roomsInput.value = "";
-
-  loadTicketHotels();
-  loadSetupFloors();
-  renderHotels();
-}
-
-function renderHotels(){
-  hotelsList.innerHTML = hotelsData.map(h => `
-    <div class="card" style="margin-bottom:10px">
-      <b>${h.name}</b>
-      ${
-        h.floors.length
-        ? h.floors.map(f => `
-            <div style="margin-top:8px">
-              <span class="pill low">${f.name}</span>
-              <span class="muted">${f.rooms.join(", ") || "لا توجد غرف/مواقع"}</span>
-            </div>
-          `).join("")
-        : `<div class="muted">لم يتم إضافة أدوار أو مناطق بعد</div>`
-      }
-    </div>
-  `).join("");
-}
-
-function loadItems(){
-  let type = inspectionType.value;
-  item.innerHTML = Object.keys(inspectionData[type]).map(x => `<option>${x}</option>`).join("");
-  loadProblems();
-}
-
-document.addEventListener("change", e => {
-  if(e.target && e.target.id === "item"){
-    loadProblems();
-  }
-});
-
-function loadProblems(){
-  let type = inspectionType.value;
-  problem.innerHTML = (inspectionData[type][item.value] || []).map(x => `<option>${x}</option>`).join("");
-}
-
-function autoAssign(itemValue, problemValue){
-  let text = `${itemValue} ${problemValue}`;
-  let department = "الصيانة";
-  let specialty = "عام";
-  let risk = "متوسط";
-
-  if(/اتساخ|رائحة|حشرات|نظافة|مخلفات/.test(text)){
-    department = "الهاوسكيبنق";
-    specialty = "نظافة";
-  }
-
-  if(/رطوبة|دهان|تشقق|جبس|سقف|جدار/.test(text)){
-    department = "الصيانة";
-    specialty = "بوية / جبس / أسقف";
-  }
-
-  if(/باب|قفل|مقبض|خشب/.test(text)){
-    department = "الصيانة";
-    specialty = "نجارة / أبواب";
-  }
-
-  if(/تسريب|مغسلة|مرحاض|سباكة|سيفون|شطاف|خلاط|ضغط الماء/.test(text)){
-    department = "الصيانة";
-    specialty = "سباكة";
-    risk = "عالي";
-  }
-
-  if(/كهرباء|فيش|التماس|أسلاك|احتراق|إنارة|مفتاح/.test(text)){
-    department = "الصيانة";
-    specialty = "كهرباء";
-    risk = /التماس|أسلاك|احتراق/.test(text) ? "عاجل" : "متوسط";
-  }
-
-  if(/تكييف|تبريد/.test(text)){
-    department = "الصيانة";
-    specialty = "تكييف";
-  }
-
-  if(/شاشة|تلفزيون|كاميرا|مراقبة|قنوات|إشارة/.test(text)){
-    department = "IT / الصيانة";
-    specialty = "كاميرات / شاشات";
-  }
-
-  if(/كاشف|مرش|إنذار|جرس|صافرة|Fault|Bypass|Zone|طابعة|لوحة إنذار/.test(text)){
-    department = "الصيانة";
-    specialty = "أنظمة سلامة / إنذار حريق";
-    risk = "عالي";
-  }
-
-  if(/طفاية|مخرج|هروب|محجوب|تخزين عشوائي|مسارات/.test(text)){
-    department = "السلامة HSE";
-    specialty = "معدات إطفاء / مسارات هروب";
-    risk = "عالي";
-  }
-
-  if(/مصعد|أبواب المصعد|إنتركم|جرس الطوارئ|فرق واضح/.test(text)){
-    department = "الصيانة";
-    specialty = "مصاعد";
-    risk = /فرق واضح|لا يعمل|تعليق/.test(text) ? "عاجل" : "عالي";
-  }
-
-  if(/سماعة|السماعات|الصوت|نداء|تشويش/.test(text)){
-    department = "الصيانة";
-    specialty = "أنظمة صوت / سماعات";
-    risk = /لا تعمل|لا يعمل|مكسورة|لا يوجد/.test(text) ? "عالي" : "متوسط";
-  }
-
-  if(/مطبخ|كوفي|جودة|ثلاجة|فريزر|غذائية|صلاحية|تخزين|قفازات|غطاء رأس|تحضير/.test(text)){
-    department = "الجودة";
-    specialty = "سلامة غذاء / مطابخ";
-    risk = /حشرات|منتهية|روائح|غير نظيف/.test(text) ? "عالي" : "متوسط";
-  }
-
-  if(/شبكة|إنترنت|واي فاي|سويتش|موزع النت|كابلات|كابينة الشبكة|نقطة شبكة/.test(text)){
-    department = "IT";
-    specialty = "شبكات / Wi-Fi";
-    risk = /حرارة|مكشوفة|انقطاع|لا يعمل/.test(text) ? "عاجل" : "متوسط";
-  }
-
-  return {department,specialty,risk};
-}
-
-function fileToBase64(input){
-  return new Promise(resolve => {
-    const file = input.files && input.files[0];
-
-    if(!file){
-      resolve("");
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => resolve("");
-
-    reader.readAsDataURL(file);
-  });
-}
-
-async function createTicket(){
-  if(!currentUser){
-    alert("سجل الدخول أولاً");
-    return;
-  }
-
-  if(currentUser.role === "viewer"){
-    alert("حساب مشاهدة فقط لا يستطيع إنشاء بلاغ");
-    return;
-  }
-
-  if(!ticketHotel.value || !ticketFloor.value || !ticketRoom.value){
-    alert("أضف إعدادات الفندق ثم اختر الفندق/الدور/الغرفة");
-    return;
-  }
-
-  let auto = autoAssign(item.value, problem.value);
-  let imageBefore = await fileToBase64(photoBefore);
-
-  tickets.unshift({
-    id:`DYAR-${new Date().getFullYear()}-${String(tickets.length + 1).padStart(4,"0")}`,
-    hotel:ticketHotel.value,
-    location:`${ticketFloor.value} / ${ticketRoom.value}`,
-    type:inspectionType.options[inspectionType.selectedIndex].text,
-    item:item.value,
-    problem:problem.value,
-    department:auto.department,
-    specialty:auto.specialty,
-    risk:auto.risk,
-    status:"مفتوح",
-    note:note.value.trim(),
-    correctiveAction:"",
-    closedAt:"",
-    closedBy:"",
-    imageBefore:imageBefore,
-    createdBy:currentUser.email,
-    createdAt:new Date().toLocaleString("ar-SA")
-  });
-
-  saveTickets();
-  clearForm();
-  renderAll();
-}
-
-function clearForm(){
-  note.value = "";
-  photoBefore.value = "";
-}
-
-function riskClass(risk){
-  if(risk === "عاجل") return "urgent";
-  if(risk === "عالي") return "high";
-  if(risk === "متوسط") return "mid";
-  return "low";
-}
-
-function statusClass(status){
-  if(status === "مغلق" || status === "تم الحل") return "closed";
-  if(status === "تحت الإجراء") return "pending";
-  return "low";
-}
-
-function renderTickets(){
-  let q = (search?.value || "").toLowerCase();
-  let st = statusFilter?.value || "";
-
-  let list = tickets.filter(t =>
-    (!q || Object.values(t).join(" ").toLowerCase().includes(q)) &&
-    (!st || t.status === st)
-  );
-
-  ticketsBody.innerHTML = list.map(t => `
-    <tr>
-      <td>
-        <b>${t.id}</b>
-        <br>
-        <span class="muted">${t.createdAt || ""}</span>
-        <br>
-        <span class="muted">بواسطة: ${t.createdBy || "-"}</span>
-      </td>
-      <td>${t.hotel || "-"}</td>
-      <td>${t.location || "-"}<br><span class="muted">${t.type || ""}</span></td>
-      <td>${t.item || "-"}</td>
-      <td>${t.problem || "-"}<br><span class="muted">${t.note || ""}</span></td>
-      <td>${t.department || "-"}</td>
-      <td>${t.specialty || "-"}</td>
-      <td><span class="pill ${riskClass(t.risk)}">${t.risk || "متوسط"}</span></td>
-      <td>
-        <select onchange="updateStatus('${t.id}',this.value)">
-          ${ticketStatuses.map(s => `<option ${t.status === s ? "selected" : ""}>${s}</option>`).join("")}
-        </select>
-        <div style="margin-top:6px">
-          <span class="pill ${statusClass(t.status)}">${t.status || "مفتوح"}</span>
-        </div>
-        ${t.correctiveAction ? `<div class="muted">الإجراء: ${t.correctiveAction}</div>` : ""}
-        ${t.closedAt ? `<div class="muted">الإغلاق: ${t.closedAt}</div>` : ""}
-        ${t.closedBy ? `<div class="muted">أغلقه: ${t.closedBy}</div>` : ""}
-      </td>
-      <td>
-        ${t.imageBefore ? `<img class="thumb" src="${t.imageBefore}" alt="صورة البلاغ">` : `<span class="muted">لا توجد صورة</span>`}
-      </td>
-      <td>
-        <button class="blue" onclick="editCorrectiveAction('${t.id}')">إجراء تصحيحي</button>
-        <button class="red" onclick="deleteTicket('${t.id}')">حذف</button>
-      </td>
-    </tr>
-  `).join("");
-}
-
-function updateStatus(id,status){
-  let t = tickets.find(x => x.id === id);
-
-  if(!t) return;
-
-  t.status = status;
-
-  if(status === "تم الحل" || status === "مغلق"){
-    let action = prompt("اكتب الإجراء التصحيحي / سبب الإغلاق:", t.correctiveAction || "");
-
-    if(action !== null && action.trim()){
-      t.correctiveAction = action.trim();
-    }
-
-    t.closedAt = new Date().toLocaleString("ar-SA");
-    t.closedBy = currentUser ? currentUser.email : "غير معروف";
-  }
-
-  saveTickets();
-  renderAll();
-}
-
-function editCorrectiveAction(id){
-  let t = tickets.find(x => x.id === id);
-
-  if(!t) return;
-
-  let action = prompt("اكتب الإجراء التصحيحي:", t.correctiveAction || "");
-
-  if(action !== null){
-    t.correctiveAction = action.trim();
-    saveTickets();
-    renderAll();
-  }
-}
-
-function deleteTicket(id){
-  if(confirm("حذف البلاغ؟")){
-    tickets = tickets.filter(t => t.id !== id);
-    saveTickets();
-    renderAll();
-  }
-}
-
-function renderUsers(){
-  usersBody.innerHTML = users.map(u => `
-    <tr>
-      <td>${u.name}</td>
-      <td>${u.email}</td>
-      <td>${u.hotel}</td>
-      <td>${roleName(u.role)}</td>
-      <td><span class="pill ${u.status === "pending" ? "pending" : u.status === "blocked" ? "blocked" : "low"}">${u.status}</span></td>
-      <td>
-        ${
-          u.email === ADMIN_EMAIL
-          ? "الأدمن الرئيسي"
-          : `
-            <select onchange="setRole('${u.email}',this.value)">
-              <option value="inspector" ${u.role === "inspector" ? "selected" : ""}>مفتش</option>
-              <option value="assistant" ${u.role === "assistant" ? "selected" : ""}>مساعد مشرف</option>
-              <option value="supervisor" ${u.role === "supervisor" ? "selected" : ""}>مشرف</option>
-              <option value="manager" ${u.role === "manager" ? "selected" : ""}>مدير</option>
-              <option value="viewer" ${u.role === "viewer" ? "selected" : ""}>مشاهدة فقط</option>
-            </select>
-            <button class="green" onclick="approveUser('${u.email}')">موافقة</button>
-            <button class="red" onclick="blockUser('${u.email}')">حظر</button>
-            <button class="gray" onclick="deleteUser('${u.email}')">حذف</button>
-          `
-        }
-      </td>
-    </tr>
-  `).join("");
-}
-
-function setRole(email,role){
-  let u = users.find(x => x.email === email);
-
-  if(u){
-    u.role = role;
-    if(u.status !== "blocked"){
-      u.status = "approved";
-    }
-    saveUsers();
-    renderAll();
-  }
-}
-
-function approveUser(email){
-  let u = users.find(x => x.email === email);
-
-  if(u){
-    if(u.role === "pending") u.role = "inspector";
-    u.status = "approved";
-    saveUsers();
-    renderAll();
-  }
-}
-
-function blockUser(email){
-  let u = users.find(x => x.email === email);
-
-  if(u){
-    u.status = "blocked";
-    u.role = "blocked";
-    saveUsers();
-    renderAll();
-  }
-}
-
-function deleteUser(email){
-  if(email === ADMIN_EMAIL){
-    alert("لا يمكن حذف الأدمن الرئيسي");
-    return;
-  }
-
-  if(confirm("حذف المستخدم؟")){
-    users = users.filter(u => u.email !== email);
-    saveUsers();
-    renderAll();
-  }
-}
-
-function exportTicketsToExcel(){
-  if(!tickets.length){
-    alert("لا توجد بلاغات للتصدير");
-    return;
-  }
-
-  const rows = tickets.map(t => ({
-    "رقم البلاغ": t.id,
-    "الفندق": t.hotel,
-    "الموقع": t.location,
-    "نوع الفحص": t.type,
-    "العنصر": t.item,
-    "المشكلة": t.problem,
-    "الملاحظة": t.note,
-    "القسم": t.department,
-    "التخصص": t.specialty,
-    "الخطورة": t.risk,
-    "الحالة": t.status,
-    "الإجراء التصحيحي": t.correctiveAction,
-    "تاريخ الإغلاق": t.closedAt,
-    "من أغلق البلاغ": t.closedBy,
-    "أنشئ بواسطة": t.createdBy,
-    "تاريخ الإنشاء": t.createdAt
-  }));
-
-  const worksheet = XLSX.utils.json_to_sheet(rows);
-  const workbook = XLSX.utils.book_new();
-
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Tickets");
-  XLSX.writeFile(workbook, "بلاغات_نظام_ديار.xlsx");
-}
-
-function renderAll(){
-  renderTickets();
-  renderUsers();
-  renderHotels();
-
-  totalTickets.textContent = tickets.length;
-  urgentTickets.textContent = tickets.filter(t => t.risk === "عاجل").length;
-  pendingUsers.textContent = users.filter(u => u.status === "pending").length;
-  onlineNow.textContent = currentUser ? "1" : "0";
-}
-
+const inspectionLabels={room:"فحص الغرف",floor:"فحص الدور / الممر",elevator:"فحص المصاعد",fire:"أنظمة الحريق والإنذار",cctv:"الكاميرات CCTV",pa:"السماعات ونظام النداء",quality:"الجودة / المطابخ والكوفي شوب",network:"الشبكة والإنترنت",warehouse:"المستودعات والتخزين",services:"غرف الخدمات",parking:"مواقف السيارات"};
+let currentUser=null;
+let users=safeJson(localStorage.getItem("dyarUsers"),[]);
+let tickets=safeJson(localStorage.getItem("dyarTickets"),[]);
+let hotelsData=safeJson(localStorage.getItem("dyarHotelsData"),null);
+let auditLog=safeJson(localStorage.getItem("dyarAuditLog"),[]);
+function safeJson(v,f){try{return v?JSON.parse(v):f}catch(e){return f}}
+function saveUsers(){localStorage.setItem("dyarUsers",JSON.stringify(users))}function saveTickets(){localStorage.setItem("dyarTickets",JSON.stringify(tickets))}function saveHotels(){localStorage.setItem("dyarHotelsData",JSON.stringify(hotelsData))}function saveAudit(){localStorage.setItem("dyarAuditLog",JSON.stringify(auditLog))}
+function logAudit(action,details){auditLog.unshift({at:new Date().toLocaleString("ar-SA"),user:currentUser?currentUser.email:"system",action,details});auditLog=auditLog.slice(0,500);saveAudit()}
+function defaultHotelData(){return defaultHotels.map(h=>({name:h,floors:[{name:"الدور 1",rooms:[]},{name:"الدور 2",rooms:[]},{name:"B1",rooms:["غرفة المضخات","غرفة الكهرباء","غرفة المولد","غرفة الديزل","مستودع B1","موقف B1-001"]},{name:"السطح",rooms:["غرفة المصاعد","غرفة الخزانات"]}]}))}
+function init(){if(!hotelsData){hotelsData=defaultHotelData();saveHotels()}let admin=users.find(u=>u.email===ADMIN_EMAIL);if(!admin){users.push({name:"الأدمن الرئيسي",email:ADMIN_EMAIL,password:ADMIN_PASSWORD,hotel:"كل الفنادق",role:"admin",status:"approved",department:"الإدارة"})}else{Object.assign(admin,{password:ADMIN_PASSWORD,hotel:"كل الفنادق",role:"admin",status:"approved",department:"الإدارة"})}saveUsers();loadAuthHotels();loadTicketHotels();loadSetupHotels();loadInspectionTypes();loadStatusFilter();loadItems();renderAll()}
+function getHotelNames(){return hotelsData.map(h=>h.name)}function selectedHotel(name){return hotelsData.find(h=>h.name===name)}
+function loadAuthHotels(){regHotel.innerHTML=getHotelNames().map(h=>`<option>${h}</option>`).join("")}
+function loadTicketHotels(){ticketHotel.innerHTML=getHotelNames().map(h=>`<option>${h}</option>`).join("");loadFloors()}
+function loadSetupHotels(){setupHotel.innerHTML=getHotelNames().map(h=>`<option>${h}</option>`).join("");roomHotel.innerHTML=getHotelNames().map(h=>`<option>${h}</option>`).join("");loadSetupFloors()}
+function loadInspectionTypes(){inspectionType.innerHTML=Object.keys(inspectionLabels).map(k=>`<option value="${k}">${inspectionLabels[k]}</option>`).join("")}
+function loadStatusFilter(){statusFilter.innerHTML=`<option value="">كل الحالات</option>`+ticketStatuses.map(s=>`<option>${s}</option>`).join("")}
+function loadFloors(){let h=selectedHotel(ticketHotel.value);ticketFloor.innerHTML=(h?.floors||[]).map(f=>`<option>${f.name}</option>`).join("");loadRooms()}
+function loadRooms(){let h=selectedHotel(ticketHotel.value);let f=(h?.floors||[]).find(x=>x.name===ticketFloor.value);ticketRoom.innerHTML=(f?.rooms||[]).map(r=>`<option>${r}</option>`).join("")}
+function loadSetupFloors(){let h=selectedHotel(roomHotel.value);roomFloor.innerHTML=(h?.floors||[]).map(f=>`<option>${f.name}</option>`).join("")}
+function msg(id,text,type="success"){document.getElementById(id).innerHTML=`<div class="${type}">${text}</div>`}
+function registerUser(){let name=regName.value.trim(),email=regEmail.value.trim().toLowerCase(),pass=regPass.value;if(!name||!email||pass.length<6){msg("regMsg","اكتب الاسم والبريد وكلمة مرور 6 أحرف أو أكثر.","error");return}if(users.find(u=>u.email===email)){msg("regMsg","هذا البريد مسجل مسبقًا.","error");return}users.push({name,email,password:pass,hotel:regHotel.value,department:regDepartment.value,role:"pending",status:"pending"});saveUsers();logAudit("تسجيل مستخدم",email);msg("regMsg","تم إرسال طلبك للإدارة. انتظر الموافقة.");regName.value="";regEmail.value="";regPass.value="";renderAll()}
+function login(){let email=loginEmail.value.trim().toLowerCase(),pass=loginPass.value;let user=users.find(u=>u.email===email);if(!user){msg("loginMsg","الحساب غير موجود.","error");return}if(user.password!==pass){msg("loginMsg","كلمة المرور غير صحيحة.","error");return}if(user.status==="blocked"){msg("loginMsg","هذا الحساب محظور.","error");return}if(user.status!=="approved"){msg("loginMsg","حسابك بانتظار موافقة الإدارة.","error");return}currentUser=user;authArea.classList.add("hidden");dashboard.classList.remove("hidden");app.classList.remove("hidden");userInfo.textContent=`${user.name} - ${user.email} - ${roleName(user.role)} - ${user.department} - ${user.hotel}`;logAudit("تسجيل دخول",email);renderAll()}
+function logout(){currentUser=null;location.reload()}function roleName(role){return {admin:"أدمن رئيسي",operations:"مدير تشغيل",hotelManager:"مدير فندق",maintenanceSupervisor:"مشرف صيانة",itSupervisor:"مشرف IT",qualitySupervisor:"مشرف جودة",hseInspector:"مفتش سلامة",inspector:"مفتش",viewer:"مشاهدة فقط",pending:"بانتظار الموافقة",blocked:"محظور"}[role]||role}
+function canSee(t){if(!currentUser)return false;if(currentUser.role==="admin"||currentUser.role==="operations")return true;if(currentUser.role==="hotelManager")return t.hotel===currentUser.hotel;if(currentUser.role==="maintenanceSupervisor")return t.department==="الصيانة"&&(currentUser.hotel==="كل الفنادق"||t.hotel===currentUser.hotel);if(currentUser.role==="itSupervisor")return t.department==="IT"&&(currentUser.hotel==="كل الفنادق"||t.hotel===currentUser.hotel);if(currentUser.role==="qualitySupervisor")return t.department==="الجودة"&&(currentUser.hotel==="كل الفنادق"||t.hotel===currentUser.hotel);if(currentUser.role==="hseInspector")return (t.department==="السلامة HSE"||t.createdBy===currentUser.email);if(currentUser.role==="viewer")return currentUser.hotel==="كل الفنادق"||t.hotel===currentUser.hotel;return t.createdBy===currentUser.email||currentUser.hotel===t.hotel}
+function requireAdmin(){return currentUser&&currentUser.role==="admin"}
+function showPanel(panel,btn){if((panel==="admin"||panel==="hotels")&&!requireAdmin()){alert("هذه الصفحة للأدمن الرئيسي فقط");return}document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));btn.classList.add("active");inspectionPanel.classList.toggle("hidden",panel!=="inspection");hotelsPanel.classList.toggle("hidden",panel!=="hotels");reportsPanel.classList.toggle("hidden",panel!=="reports");auditPanel.classList.toggle("hidden",panel!=="audit");adminPanel.classList.toggle("hidden",panel!=="admin");renderAll()}
+function addHotel(){let name=newHotelName.value.trim();if(!name){alert("اكتب اسم الفندق");return}if(hotelsData.find(h=>h.name===name)){alert("الفندق موجود مسبقًا");return}hotelsData.push({name,floors:[]});saveHotels();logAudit("إضافة فندق",name);newHotelName.value="";loadAuthHotels();loadTicketHotels();loadSetupHotels();renderHotels()}
+function addFloor(){let hotel=selectedHotel(setupHotel.value),name=newFloorName.value.trim();if(!hotel||!name){alert("اختر الفندق واكتب الدور/المنطقة");return}if(hotel.floors.find(f=>f.name===name)){alert("الدور/المنطقة موجودة");return}hotel.floors.push({name,rooms:[]});saveHotels();logAudit("إضافة دور/منطقة",`${hotel.name} - ${name}`);newFloorName.value="";loadTicketHotels();loadSetupHotels();renderHotels()}
+function deleteFloor(hotelName,floorName){if(!confirm(`حذف ${floorName}؟`))return;let h=selectedHotel(hotelName);if(!h)return;h.floors=h.floors.filter(f=>f.name!==floorName);saveHotels();logAudit("حذف دور/منطقة",`${hotelName} - ${floorName}`);loadTicketHotels();loadSetupHotels();renderHotels()}
+function parseRooms(text){text=text.trim();if(!text)return[];if(text.includes("-")){let [a,b]=text.split("-").map(x=>parseInt(x.trim(),10));if(!isNaN(a)&&!isNaN(b)&&b>=a){let arr=[];for(let i=a;i<=b;i++)arr.push(String(i));return arr}}return text.split(",").map(x=>x.trim()).filter(Boolean)}
+function addRooms(){let hotel=selectedHotel(roomHotel.value),floor=hotel?.floors.find(f=>f.name===roomFloor.value),rooms=parseRooms(roomsInput.value);if(!hotel||!floor||rooms.length===0){alert("اختر الفندق والدور واكتب الغرف/المواقع");return}rooms.forEach(r=>{if(!floor.rooms.includes(r))floor.rooms.push(r)});saveHotels();logAudit("إضافة مواقع",`${hotel.name} - ${floor.name}: ${rooms.join(", ")}`);roomsInput.value="";loadTicketHotels();loadSetupFloors();renderHotels()}
+function addQuickServiceLocations(){let hotel=selectedHotel(roomHotel.value),floor=hotel?.floors.find(f=>f.name===roomFloor.value);if(!hotel||!floor){alert("اختر الفندق والدور");return}let list=["غرفة المضخات","غرفة الكهرباء","غرفة المولد","غرفة الديزل","غرفة المصاعد","غرفة الشبكة","مستودع أدوات","مستودع نظافة","مستودع قطع غيار","موقف "+floor.name+"-001","موقف "+floor.name+"-002"];list.forEach(r=>{if(!floor.rooms.includes(r))floor.rooms.push(r)});saveHotels();logAudit("إضافة مواقع خدمات جاهزة",`${hotel.name} - ${floor.name}`);loadTicketHotels();renderHotels()}
+function deleteRoom(hotelName,floorName,room){if(!confirm(`حذف ${room}؟`))return;let h=selectedHotel(hotelName),f=h?.floors.find(x=>x.name===floorName);if(!f)return;f.rooms=f.rooms.filter(r=>r!==room);saveHotels();logAudit("حذف موقع",`${hotelName} - ${floorName} - ${room}`);loadTicketHotels();renderHotels()}
+function renderHotels(){hotelsList.innerHTML=hotelsData.map(h=>`<div class="card" style="margin-bottom:10px"><div class="row space"><b>${h.name}</b></div>${h.floors.length?h.floors.map(f=>`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px"><div class="row"><span class="pill low">${f.name}</span><button class="red noPrint" onclick="deleteFloor('${esc(h.name)}','${esc(f.name)}')">حذف الدور</button></div><div class="muted">${f.rooms.length?f.rooms.map(r=>`<span class="pill blocked">${r} <button class="gray noPrint" style="padding:2px 6px" onclick="deleteRoom('${esc(h.name)}','${esc(f.name)}','${esc(r)}')">×</button></span>`).join(" "):"لا توجد غرف/مواقع"}</div></div>`).join(""):`<div class="muted">لم يتم إضافة أدوار أو مناطق بعد</div>`}</div>`).join("")}
+function esc(s){return String(s).replace(/'/g,"&#39;").replace(/\"/g,"&quot;")}
+function loadItems(){let type=inspectionType.value;item.innerHTML=Object.keys(inspectionData[type]).map(x=>`<option>${x}</option>`).join("");warehouseChecklistBox.classList.toggle("hidden",type!=="warehouse");loadProblems()}
+document.addEventListener("change",e=>{if(e.target&&e.target.id==="item")loadProblems()});function loadProblems(){let type=inspectionType.value;problem.innerHTML=(inspectionData[type][item.value]||[]).map(x=>`<option>${x}</option>`).join("")}
+function autoAssign(itemValue,problemValue,typeValue){let text=`${itemValue} ${problemValue}`;let department="الصيانة",technician="فني عام",risk="متوسط",priority="عادي";
+ if(/باب|خشب|خدش في الباب|كسر في الباب/.test(text)){technician="فني نجار"}
+ if(/قفل|مقبض|كرت باب|الباب لا يغلق/.test(text)){technician="فني أبواب وأقفال"}
+ if(/رخام|بلاط|أرضية|تعثر|انزلاق/.test(text)){technician="فني رخام";risk=/تعثر|انزلاق/.test(text)?"عالي":"متوسط"}
+ if(/زجاج|مرآة/.test(text)){technician="فني زجاج";risk="عالي"}
+ if(/جبس|سقف مستعار|السقف/.test(text)){technician="فني جبس / سقف"}
+ if(/دهان|تشققات|رطوبة/.test(text)){technician="فني دهان / معالجة رطوبة";risk=/رطوبة|تسريب/.test(text)?"عالي":"متوسط"}
+ if(/تسريب|مغسلة|مرحاض|سباكة|سيفون|شطاف|خلاط|ضغط الماء/.test(text)){technician="فني سباك";risk="عالي"}
+ if(/كهرباء|فيش|التماس|أسلاك|مفتاح/.test(text)){technician="فني كهرباء";risk=/التماس|أسلاك/.test(text)?"عاجل":"متوسط"}
+ if(/إنارة|لمبة|سبوت/.test(text)){technician="فني إنارة"}
+ if(/تكييف|تبريد|مكيف/.test(text)){technician="فني تكييف"}
+ if(/كاميرا|مراقبة|CCTV/.test(text)){department="IT";technician="فني كاميرات";risk="متوسط"}
+ if(/شبكة|إنترنت|واي فاي|سويتش|موزع النت|كابلات|كابينة الشبكة|نقطة شبكة/.test(text)){department="IT";technician="فني شبكات / Wi-Fi";risk=/حرارة|مكشوفة|انقطاع/.test(text)?"عاجل":"متوسط"}
+ if(/كاشف|إنذار|جرس|Fault|Zone|طابعة|مرش|حريق/.test(text)){department="الصيانة";technician="فني إنذارات حريق";risk="عالي"}
+ if(/طفاية|مخرج|هروب|مسارات|محجوب/.test(text)){department="السلامة HSE";technician="فني سلامة / HSE";risk="عالي"}
+ if(/مصعد/.test(text)){technician="فني مصاعد";risk="عالي"}
+ if(/سماعة|السماعات|الصوت|نداء|تشويش/.test(text)){technician="فني أنظمة صوت / سماعات";risk=/لا تعمل|لا يعمل|لا يوجد/.test(text)?"عالي":"متوسط"}
+ if(/مطبخ|كوفي|غذائية|صلاحية|قفازات|غطاء رأس|تحضير/.test(text)){department="الجودة";technician="فني سلامة غذاء";risk=/حشرات|منتهية|روائح|غير نظيف/.test(text)?"عالي":"متوسط"}
+ if(/ثلاجة|فريزر/.test(text)){department="الجودة";technician="فني تبريد وثلاجات";risk="عالي"}
+ if(/نظافة|اتساخ|رائحة/.test(text)){department="الهاوسكيبنق";technician="فني نظافة / هاوسكيبنق"}
+ if(/حشرات/.test(text)){department="الهاوسكيبنق";technician="فني مكافحة حشرات";risk="عالي"}
+ if(typeValue==="warehouse"||/رفوف|تخزين|مستودع|تكدس/.test(text)){department="السلامة HSE";technician="فني تنظيم تخزين / مستودعات";risk=/مواد خطرة|انسداد|تحميل زائد|لا توجد رفوف/.test(text)?"عالي":"متوسط"}
+ if(typeValue==="services"||/مضخات|المضخات/.test(text)){department="الصيانة";technician="فني مضخات";risk="عالي"}
+ if(/مولد|ديزل/.test(text)){department="الصيانة";technician="فني مولدات / ديزل";risk="عالي"}
+ if(typeValue==="parking"){department="الصيانة";if(/إنارة/.test(text))technician="فني إنارة";if(/تسريب/.test(text))technician="فني سباك"}
+ if(risk==="عاجل")priority="عاجل جدًا"; else if(risk==="عالي")priority="عاجل"; return{department,technician,risk,priority}}
+function slaHours(risk){return risk==="عاجل"?2:risk==="عالي"?6:risk==="متوسط"?24:72}
+function fileToBase64(input){return new Promise(resolve=>{const file=input.files&&input.files[0];if(!file){resolve("");return}const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve("");reader.readAsDataURL(file)})}
+function warehouseChecklist(){if(inspectionType.value!=="warehouse")return null;return {shelves:ckShelves.checked,shelvesFixed:ckShelvesFixed.checked,noFloorStorage:ckNoFloorStorage.checked,clearAisles:ckClearAisles.checked,noOverload:ckNoOverload.checked,fireExtinguisher:ckFireExtinguisher.checked}}
+async function createTicket(){if(!currentUser){alert("سجل الدخول أولاً");return}if(currentUser.role==="viewer"){alert("حساب مشاهدة فقط لا يستطيع إنشاء بلاغ");return}if(!ticketHotel.value||!ticketFloor.value||!ticketRoom.value){alert("أضف إعدادات الفندق ثم اختر الفندق/الدور/الغرفة");return}let auto=autoAssign(item.value,problem.value,inspectionType.value);let imageBefore=await fileToBase64(photoBefore);let id=`DYAR-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;let ticket={id,hotel:ticketHotel.value,floor:ticketFloor.value,room:ticketRoom.value,location:`${ticketFloor.value} / ${ticketRoom.value}`,type:inspectionLabels[inspectionType.value],typeKey:inspectionType.value,item:item.value,problem:problem.value,department:auto.department,technician:auto.technician,risk:auto.risk,priority:auto.priority,status:"مفتوح",note:note.value.trim(),correctiveAction:"",delayReason:"",closedAt:"",closedBy:"",verifiedBy:"",imageBefore,imageAfter:"",createdBy:currentUser.email,createdAt:new Date().toLocaleString("ar-SA"),createdMs:Date.now(),slaHours:slaHours(auto.risk),warehouseChecklist:warehouseChecklist()};tickets.unshift(ticket);saveTickets();logAudit("إنشاء بلاغ",`${id} - ${ticket.problem} - ${ticket.department} / ${ticket.technician}`);clearForm();renderAll()}
+function clearForm(){note.value="";photoBefore.value="";[ckShelves,ckShelvesFixed,ckNoFloorStorage,ckClearAisles,ckNoOverload,ckFireExtinguisher].forEach(x=>x.checked=false)}
+function riskClass(r){return r==="عاجل"?"urgent":r==="عالي"?"high":r==="متوسط"?"mid":"low"}function statusClass(s){return s==="مغلق"?"closed":s==="تم الحل"||s==="بانتظار التحقق"?"pending":s==="انتظار قطع غيار"||s==="انتظار مورد"?"soon":s==="مرفوض / غير صحيح"?"blocked":"low"}
+function slaState(t){if(["مغلق","مرفوض / غير صحيح"].includes(t.status))return {text:"منتهي",cls:"closed"};let limit=(t.slaHours||24)*3600000,used=Date.now()-(t.createdMs||Date.now());if(used>limit)return {text:"متأخر",cls:"late"};if(used>limit*.75)return {text:"قرب يتأخر",cls:"soon"};return {text:"داخل الوقت",cls:"ok"}}
+function renderTickets(){let q=(search?.value||"").toLowerCase(),st=statusFilter?.value||"",dept=deptFilter?.value||"",risk=riskFilter?.value||"";let list=tickets.filter(t=>canSee(t)&&(!q||Object.values(t).join(" ").toLowerCase().includes(q))&&(!st||t.status===st)&&(!dept||t.department===dept)&&(!risk||t.risk===risk));ticketsBody.innerHTML=list.map(t=>{let sla=slaState(t);return `<tr><td><b>${t.id}</b><br><span class="muted">${t.createdAt||""}</span><br><span class="muted">بواسطة: ${t.createdBy||"-"}</span></td><td>${t.hotel}<br>${t.location}<br><span class="muted">${t.type||""}</span></td><td><b>${t.item}</b><br>${t.problem}<br><span class="muted">${t.note||""}</span>${renderWarehouseMini(t)}</td><td>${t.department}</td><td><span class="pill pending">${t.technician||"فني عام"}</span></td><td><span class="pill ${riskClass(t.risk)}">${t.risk}</span><br><span class="muted">${t.priority}</span></td><td><span class="pill ${sla.cls}">${sla.text}</span><br><span class="muted">${t.slaHours} ساعة</span></td><td><select class="noPrint" onchange="updateStatus('${t.id}',this.value)">${ticketStatuses.map(s=>`<option ${t.status===s?"selected":""}>${s}</option>`).join("")}</select><br><span class="pill ${statusClass(t.status)}">${t.status}</span>${t.correctiveAction?`<div class="muted">الإجراء: ${t.correctiveAction}</div>`:""}${t.delayReason?`<div class="muted">سبب التأخير: ${t.delayReason}</div>`:""}${t.closedAt?`<div class="muted">الإغلاق: ${t.closedAt}</div>`:""}${t.closedBy?`<div class="muted">أغلقه: ${t.closedBy}</div>`:""}</td><td>${t.imageBefore?`قبل:<img class="thumb" src="${t.imageBefore}">`:"<span class='muted'>لا توجد صورة قبل</span>"}${t.imageAfter?`بعد:<img class="thumb" src="${t.imageAfter}">`:"<br><span class='muted'>لا توجد صورة بعد</span>"}</td><td class="noPrint"><button class="blue" onclick="editCorrectiveAction('${t.id}')">إجراء</button><button class="green" onclick="uploadAfterImage('${t.id}')">صورة بعد</button><button class="orange" onclick="editDelayReason('${t.id}')">سبب تأخير</button><button class="red" onclick="deleteTicket('${t.id}')">حذف</button></td></tr>`}).join("")}
+function renderWarehouseMini(t){if(!t.warehouseChecklist)return"";let c=t.warehouseChecklist;return `<div class="muted">رفوف: ${c.shelves?"نعم":"لا"} | مثبتة: ${c.shelvesFixed?"نعم":"لا"} | الممرات: ${c.clearAisles?"واضحة":"غير واضحة"}</div>`}
+function updateStatus(id,status){let t=tickets.find(x=>x.id===id);if(!t)return;let old=t.status;if((status==="مغلق"||status==="تم الحل")&&!t.correctiveAction){alert("لا يمكن الحل/الإغلاق بدون إجراء تصحيحي.");renderAll();return}if((status==="مغلق"||status==="تم الحل")&&(t.risk==="عالي"||t.risk==="عاجل")&&!t.imageAfter){alert("البلاغ العالي/العاجل يحتاج صورة بعد قبل الحل أو الإغلاق.");renderAll();return}if(status==="مغلق"&&t.status!=="بانتظار التحقق"&&t.status!=="تم الحل"){alert("لا يمكن الإغلاق مباشرة. اجعل الحالة تم الحل أو بانتظار التحقق أولاً.");renderAll();return}if(["انتظار قطع غيار","انتظار مورد","مؤجل بموافقة الإدارة"].includes(status)&&!t.delayReason){let reason=prompt("اكتب سبب التأخير:");if(!reason||!reason.trim()){renderAll();return}t.delayReason=reason.trim()}t.status=status;if(status==="مغلق"){t.closedAt=new Date().toLocaleString("ar-SA");t.closedBy=currentUser?currentUser.email:"غير معروف"}if(status==="بانتظار التحقق"){t.verifiedBy=currentUser?currentUser.email:""}saveTickets();logAudit("تغيير حالة بلاغ",`${id}: ${old} → ${status}`);renderAll()}
+function editCorrectiveAction(id){let t=tickets.find(x=>x.id===id);if(!t)return;let action=prompt("اكتب الإجراء التصحيحي:",t.correctiveAction||"");if(action!==null){t.correctiveAction=action.trim();saveTickets();logAudit("تعديل إجراء تصحيحي",id);renderAll()}}
+function editDelayReason(id){let t=tickets.find(x=>x.id===id);if(!t)return;let reason=prompt("اكتب سبب التأخير:",t.delayReason||"");if(reason!==null){t.delayReason=reason.trim();saveTickets();logAudit("تعديل سبب تأخير",id);renderAll()}}
+function uploadAfterImage(id){let input=document.createElement("input");input.type="file";input.accept="image/*";input.onchange=async()=>{let t=tickets.find(x=>x.id===id);if(!t)return;t.imageAfter=await fileToBase64(input);saveTickets();logAudit("رفع صورة بعد",id);renderAll()};input.click()}
+function deleteTicket(id){if(!requireAdmin()){alert("الحذف للأدمن فقط");return}if(confirm("حذف البلاغ؟")){tickets=tickets.filter(t=>t.id!==id);saveTickets();logAudit("حذف بلاغ",id);renderAll()}}
+function renderUsers(){usersBody.innerHTML=users.map(u=>`<tr><td>${u.name}</td><td>${u.email}</td><td>${u.hotel}</td><td>${u.department||"-"}</td><td>${roleName(u.role)}</td><td><span class="pill ${u.status==="pending"?"pending":u.status==="blocked"?"blocked":"low"}">${u.status}</span></td><td>${u.email===ADMIN_EMAIL?"الأدمن الرئيسي":`<select onchange="setUserField('${u.email}','role',this.value)"><option value="inspector" ${u.role==="inspector"?"selected":""}>مفتش</option><option value="hseInspector" ${u.role==="hseInspector"?"selected":""}>مفتش سلامة</option><option value="maintenanceSupervisor" ${u.role==="maintenanceSupervisor"?"selected":""}>مشرف صيانة</option><option value="itSupervisor" ${u.role==="itSupervisor"?"selected":""}>مشرف IT</option><option value="qualitySupervisor" ${u.role==="qualitySupervisor"?"selected":""}>مشرف جودة</option><option value="hotelManager" ${u.role==="hotelManager"?"selected":""}>مدير فندق</option><option value="operations" ${u.role==="operations"?"selected":""}>مدير تشغيل</option><option value="viewer" ${u.role==="viewer"?"selected":""}>مشاهدة فقط</option></select><select onchange="setUserField('${u.email}','department',this.value)">${departments.map(d=>`<option ${u.department===d?"selected":""}>${d}</option>`).join("")}</select><button class="green" onclick="approveUser('${u.email}')">موافقة</button><button class="red" onclick="blockUser('${u.email}')">حظر</button><button class="gray" onclick="deleteUser('${u.email}')">حذف</button>`}</td></tr>`).join("")}
+function setUserField(email,field,value){let u=users.find(x=>x.email===email);if(u){u[field]=value;if(u.status!=="blocked")u.status="approved";saveUsers();logAudit("تعديل مستخدم",`${email} - ${field}: ${value}`);renderAll()}}
+function approveUser(email){let u=users.find(x=>x.email===email);if(u){if(u.role==="pending")u.role="inspector";u.status="approved";saveUsers();logAudit("موافقة مستخدم",email);renderAll()}}
+function blockUser(email){let u=users.find(x=>x.email===email);if(u){u.status="blocked";u.role="blocked";saveUsers();logAudit("حظر مستخدم",email);renderAll()}}
+function deleteUser(email){if(email===ADMIN_EMAIL){alert("لا يمكن حذف الأدمن الرئيسي");return}if(confirm("حذف المستخدم؟")){users=users.filter(u=>u.email!==email);saveUsers();logAudit("حذف مستخدم",email);renderAll()}}
+function exportTicketsToExcel(){let rows=tickets.filter(canSee).map(t=>({"رقم البلاغ":t.id,"الفندق":t.hotel,"الموقع":t.location,"نوع الفحص":t.type,"العنصر":t.item,"المشكلة":t.problem,"الملاحظة":t.note,"القسم":t.department,"الفني المطلوب":t.technician,"الخطورة":t.risk,"الأولوية":t.priority,"SLA ساعة":t.slaHours,"الحالة":t.status,"الإجراء التصحيحي":t.correctiveAction,"سبب التأخير":t.delayReason,"تاريخ الإغلاق":t.closedAt,"من أغلق":t.closedBy,"أنشئ بواسطة":t.createdBy,"تاريخ الإنشاء":t.createdAt}));if(!rows.length){alert("لا توجد بلاغات للتصدير");return}let ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Tickets");XLSX.writeFile(wb,"بلاغات_ديار_تشغيل_الفنادق.xlsx")}
+function renderReports(){let visible=tickets.filter(canSee);let byDept=countBy(visible,"department"),byTech=countBy(visible,"technician"),byRisk=countBy(visible,"risk"),byStatus=countBy(visible,"status");reportCards.innerHTML=`<div class="stat">نسبة الإغلاق <b>${visible.length?Math.round(visible.filter(t=>t.status==="مغلق").length/visible.length*100):0}%</b></div><div class="stat">أكثر قسم <b>${topKey(byDept)||"-"}</b></div><div class="stat">أكثر فني مطلوب <b>${topKey(byTech)||"-"}</b></div><div class="stat">عاجل/عالي <b>${visible.filter(t=>["عاجل","عالي"].includes(t.risk)).length}</b></div>`;let rows=[];Object.entries(byDept).forEach(([k,v])=>rows.push([`القسم: ${k}`,v]));Object.entries(byTech).forEach(([k,v])=>rows.push([`الفني المطلوب: ${k}`,v]));Object.entries(byRisk).forEach(([k,v])=>rows.push([`الخطورة: ${k}`,v]));Object.entries(byStatus).forEach(([k,v])=>rows.push([`الحالة: ${k}`,v]));reportBody.innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}
+function countBy(arr,key){return arr.reduce((a,x)=>{let k=x[key]||"غير محدد";a[k]=(a[k]||0)+1;return a},{})}function topKey(obj){let e=Object.entries(obj).sort((a,b)=>b[1]-a[1])[0];return e?`${e[0]} (${e[1]})`:""}
+function renderAudit(){auditBody.innerHTML=auditLog.map(a=>`<tr><td>${a.at}</td><td>${a.user}</td><td>${a.action}</td><td>${a.details}</td></tr>`).join("")}
+function renderAll(){renderTickets();renderUsers();renderHotels();renderReports();renderAudit();let visible=tickets.filter(canSee);totalTickets.textContent=visible.length;openTickets.textContent=visible.filter(t=>!["مغلق","مرفوض / غير صحيح"].includes(t.status)).length;urgentTickets.textContent=visible.filter(t=>t.risk==="عاجل").length;lateTickets.textContent=visible.filter(t=>slaState(t).text==="متأخر").length;pendingUsers.textContent=users.filter(u=>u.status==="pending").length}
 init();
 </script>
 </body>
