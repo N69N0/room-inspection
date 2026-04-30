@@ -34,6 +34,7 @@ td{background:white;border-top:1px solid var(--line);border-bottom:1px solid var
 td:first-child{border-right:1px solid var(--line);border-radius:0 13px 13px 0}td:last-child{border-left:1px solid var(--line);border-radius:13px 0 0 13px}
 .thumb{max-width:76px;max-height:76px;border-radius:10px;border:1px solid var(--line);display:block;margin:3px 0}
 .checkgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.checkitem{border:1px solid var(--line);border-radius:12px;padding:8px;background:#f8fafc}.checkitem input{width:auto;margin-left:6px}
+.delete-mini{padding:3px 7px;font-size:11px;margin-right:5px;border-radius:9px}
 @media(max-width:900px){.half,.side,.main,.third{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}table{min-width:1100px}}
 @media print{.noPrint,#authArea,.tabs,button,input,select,textarea{display:none!important}.card{box-shadow:none}.wrap{max-width:100%;padding:0}body{background:white}}
 </style>
@@ -156,6 +157,7 @@ td:first-child{border-right:1px solid var(--line);border-radius:0 13px 13px 0}td
   <div id="hotelsPanel" class="hidden">
     <section class="card">
       <h2>إعدادات الفنادق والمواقع</h2>
+      <div class="note">يمكن حذف الفندق أو الدور أو الموقع إذا لم يكن عليه بلاغات مسجلة.</div>
       <div class="grid">
         <div class="card third">
           <h3>إضافة فندق</h3>
@@ -585,7 +587,91 @@ function addFloor(){let hotel=selectedHotel(setupHotel.value),name=newFloorName.
 function parseRooms(text){text=text.trim();if(!text)return[];if(text.includes("-")){let[a,b]=text.split("-").map(x=>parseInt(x.trim(),10));if(!isNaN(a)&&!isNaN(b)&&b>=a){let arr=[];for(let i=a;i<=b;i++)arr.push(String(i));return arr}}return text.split(",").map(x=>x.trim()).filter(Boolean)}
 function addRooms(){let hotel=selectedHotel(roomHotel.value),floor=hotel?.floors.find(f=>f.name===roomFloor.value),rooms=parseRooms(roomsInput.value);if(!hotel||!floor||!rooms.length){alert("اختر الفندق والدور واكتب المواقع");return}rooms.forEach(r=>{if(!floor.rooms.includes(r))floor.rooms.push(r)});saveHotels();roomsInput.value="";loadTicketHotels();loadSetupFloors();renderHotels();logAudit("إضافة مواقع",rooms.join(", "))}
 function addQuickServiceLocations(){roomsInput.value="غرفة المضخات, غرفة الكهرباء, غرفة المولد, غرفة الديزل, غرفة المصاعد, غرفة الشبكة, مستودع, موقف 001, موقف 002";addRooms()}
-function renderHotels(){hotelsList.innerHTML=hotelsData.map(h=>`<div class="card" style="margin-bottom:10px"><b>${h.name}</b>${h.floors.map(f=>`<div style="margin-top:8px"><span class="pill low">${f.name}</span> <span class="muted">${f.rooms.join(", ")||"لا توجد مواقع"}</span></div>`).join("")}</div>`).join("")}
+
+function renderHotels(){
+hotelsList.innerHTML=hotelsData.map((h,hi)=>`
+<div class="card" style="margin-bottom:10px">
+  <div class="row space">
+    <b>${h.name}</b>
+    <button class="red noPrint" onclick="deleteHotel(${hi})">حذف الفندق</button>
+  </div>
+
+  ${h.floors.length?h.floors.map((f,fi)=>`
+    <div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">
+      <div class="row">
+        <span class="pill low">${f.name}</span>
+        <button class="red noPrint" onclick="deleteFloor(${hi},${fi})">حذف الدور / المنطقة</button>
+      </div>
+
+      <div class="muted" style="margin-top:6px">
+        ${
+          f.rooms.length
+          ? f.rooms.map((r,ri)=>`
+              <span class="pill blocked">
+                ${r}
+                <button class="red noPrint delete-mini" onclick="deleteRoom(${hi},${fi},${ri})">×</button>
+              </span>
+            `).join("")
+          : "لا توجد مواقع"
+        }
+      </div>
+    </div>
+  `).join(""):`<div class="muted">لا توجد أدوار / مناطق</div>`}
+</div>
+`).join("");
+}
+
+function deleteHotel(hotelIndex){
+if(!currentUser || currentUser.role!=="admin"){alert("الحذف للأدمن فقط");return}
+let h=hotelsData[hotelIndex];
+if(!h)return;
+let hasTickets=tickets.some(t=>t.hotel===h.name);
+if(hasTickets){alert("لا يمكن حذف الفندق لأن عليه بلاغات مسجلة. احذف البلاغات أولًا.");return}
+if(confirm(`حذف الفندق: ${h.name} ؟`)){
+let name=h.name;
+hotelsData.splice(hotelIndex,1);
+saveHotels();
+loadAuthHotels();loadTicketHotels();loadSetupHotels();
+logAudit("حذف فندق",name);
+renderAll();
+}
+}
+
+function deleteFloor(hotelIndex,floorIndex){
+if(!currentUser || currentUser.role!=="admin"){alert("الحذف للأدمن فقط");return}
+let h=hotelsData[hotelIndex];
+let f=h?.floors[floorIndex];
+if(!h||!f)return;
+let hasTickets=tickets.some(t=>t.hotel===h.name && String(t.location||"").startsWith(f.name+" /"));
+if(hasTickets){alert("لا يمكن حذف الدور/المنطقة لأن عليه بلاغات مسجلة. احذف البلاغات أولًا.");return}
+let text=f.rooms.length?`هذا الدور يحتوي ${f.rooms.length} موقع. حذف الدور سيحذف كل مواقعه. هل تريد المتابعة؟`:`حذف الدور / المنطقة: ${f.name} ؟`;
+if(confirm(text)){
+let details=`${h.name} - ${f.name}`;
+h.floors.splice(floorIndex,1);
+saveHotels();
+loadTicketHotels();loadSetupHotels();
+logAudit("حذف دور / منطقة",details);
+renderAll();
+}
+}
+
+function deleteRoom(hotelIndex,floorIndex,roomIndex){
+if(!currentUser || currentUser.role!=="admin"){alert("الحذف للأدمن فقط");return}
+let h=hotelsData[hotelIndex];
+let f=h?.floors[floorIndex];
+let r=f?.rooms[roomIndex];
+if(!h||!f||!r)return;
+let fullLocation=`${f.name} / ${r}`;
+let hasTickets=tickets.some(t=>t.hotel===h.name && t.location===fullLocation);
+if(hasTickets){alert("لا يمكن حذف الموقع لأن عليه بلاغات مسجلة. احذف البلاغات أولًا.");return}
+if(confirm(`حذف الموقع: ${r} من ${f.name} ؟`)){
+f.rooms.splice(roomIndex,1);
+saveHotels();
+loadTicketHotels();loadSetupFloors();
+logAudit("حذف موقع",`${h.name} - ${f.name} - ${r}`);
+renderAll();
+}
+}
 
 function renderUsers(){
 let filter=(userStatusFilter?.value)||"";
@@ -631,8 +717,8 @@ saveUsers();logAudit("تعديل مستخدم",`${userLabel(email)} ${field}=${v
 function approveUser(email){
 let u=users.find(x=>x.email===email);
 if(u){
-if(u.department==="بانتظار تحديد الأدمن"){alert("حدد القسم أولاً قبل الموافقة");return}
-if(u.role==="pending"){alert("حدد الدور/الصلاحية أولاً قبل الموافقة");return}
+if(u.department==="بانتظار تحديد الأدمن"){alert("حدد القسم أولًا قبل الموافقة");return}
+if(u.role==="pending"){alert("حدد الدور/الصلاحية أولًا قبل الموافقة");return}
 u.status="approved";saveUsers();logAudit("موافقة مستخدم",userLabel(email));renderAll();
 }
 }
