@@ -67,6 +67,13 @@ td:last-child{border-left:1px solid var(--line);border-radius:13px 0 0 13px}
 .checkgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .checkitem{border:1px solid var(--line);border-radius:12px;padding:8px;background:#f8fafc}
 .checkitem input{width:auto;margin-left:6px}
+.fieldGroup{margin-top:8px}
+.roomChecklist{max-height:430px;overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px}
+.readyCheck{background:#ecfdf5;border-color:#bbf7d0;color:#166534;margin-bottom:10px}
+.checksection{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.checksection:first-child{border-top:0;margin-top:0;padding-top:0}
+.checksection b{display:block;margin-bottom:8px}
+.checkitem.roomIssue{background:white}
 .delete-mini{padding:3px 7px;font-size:11px;margin-right:5px;border-radius:9px}
 @media(max-width:900px){
   .half,.side,.main,.third{grid-column:1/-1}
@@ -173,11 +180,18 @@ td:last-child{border-left:1px solid var(--line);border-radius:13px 0 0 13px}
       <label>نوع الفحص</label>
       <select id="inspectionType" onchange="loadItems()"></select>
 
-      <label>العنصر</label>
-      <select id="item"></select>
+      <div id="singleIssueBox" class="fieldGroup">
+        <label>العنصر</label>
+        <select id="item"></select>
 
-      <label>المشكلة</label>
-      <select id="problem"></select>
+        <label>المشكلة</label>
+        <select id="problem"></select>
+      </div>
+
+      <div id="roomChecklistBox" class="hidden">
+        <label>Checklist فحص الغرفة</label>
+        <div class="roomChecklist" id="roomChecklist"></div>
+      </div>
 
       <label>ملاحظة</label>
       <textarea id="note" placeholder="مثال: غرفة 505 غير جاهزة للتسكين بسبب تسريب أسفل المغسلة ونقص مناشف وكسر في ريموت التلفزيون."></textarea>
@@ -1152,7 +1166,10 @@ function loadItems(){
 let type=$("inspectionType").value;
 $("item").innerHTML=Object.keys(inspectionData[type]||{}).map(x=>`<option>${x}</option>`).join("");
 loadProblems();
+$("singleIssueBox").classList.toggle("hidden",type==="room");
+$("roomChecklistBox").classList.toggle("hidden",type!=="room");
 $("warehouseChecklistBox").classList.toggle("hidden",type!=="warehouse");
+if(type==="room")renderRoomChecklist();
 }
 
 function loadProblems(){
@@ -1160,8 +1177,46 @@ let type=$("inspectionType").value;
 $("problem").innerHTML=((inspectionData[type]||{})[$("item").value]||[]).map(x=>`<option>${x}</option>`).join("");
 }
 
+function renderRoomChecklist(){
+let box=$("roomChecklist");
+if(!box)return;
+
+let groups=Object.entries(inspectionData.room||{}).filter(([item])=>item!=="فحص شامل للغرفة");
+
+box.innerHTML=`
+  <label class="checkitem readyCheck"><input type="checkbox" id="roomReady"> الغرفة سليمة وجاهزة للتسكين</label>
+  ${groups.map(([item,problems])=>`
+    <div class="checksection">
+      <b>${escapeHtml(item)}</b>
+      <div class="checkgrid">
+        ${problems.map(problem=>`
+          <label class="checkitem roomIssue">
+            <input type="checkbox" class="roomIssueInput" data-item="${escapeHtml(item)}" data-problem="${escapeHtml(problem)}">
+            ${escapeHtml(problem)}
+          </label>
+        `).join("")}
+      </div>
+    </div>
+  `).join("")}
+`;
+}
+
+function roomChecklistIssues(){
+return Array.from(document.querySelectorAll(".roomIssueInput:checked")).map(input=>({
+  item:input.dataset.item||"",
+  problem:input.dataset.problem||""
+}));
+}
+
 document.addEventListener("change",e=>{
   if(e.target&&e.target.id==="item")loadProblems();
+  if(e.target&&e.target.id==="roomReady"&&e.target.checked){
+    document.querySelectorAll(".roomIssueInput").forEach(input=>input.checked=false);
+  }
+  if(e.target&&e.target.classList?.contains("roomIssueInput")&&e.target.checked){
+    let ready=$("roomReady");
+    if(ready)ready.checked=false;
+  }
 });
 
 function showPanel(panel,btn){
@@ -1380,19 +1435,42 @@ if(!$("ticketHotel").value||!$("ticketFloor").value||!$("ticketRoom").value){
   return;
 }
 
-let auto=autoAssign($("item").value,$("problem").value,$("inspectionType").value);
-let ticketNo=`DYAR-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`;
-let beforeUrl=await uploadTicketPhoto($("photoBefore").files?.[0],ticketNo+"-before");
+let type=$("inspectionType").value;
+let selectedIssues=type==="room"?roomChecklistIssues():[{item:$("item").value,problem:$("problem").value}];
+let ready=$("roomReady")?.checked;
 
-let payload={
+if(type==="room"&&!selectedIssues.length){
+  if(!ready){
+    alert("حدد أن الغرفة سليمة وجاهزة للتسكين أو اختر المشاكل الموجودة في الغرفة");
+    return;
+  }
+
+  let location=`${$("ticketFloor").value} / ${$("ticketRoom").value}`;
+  await logAudit("فحص غرفة سليمة",`${$("ticketHotel").value} - ${location}`);
+  clearForm();
+  msg("ticketMsg","تم تسجيل نتيجة الفحص: الغرفة سليمة وجاهزة للتسكين. لم يتم فتح بلاغ عطل.");
+  await loadAllData();
+  renderAll();
+  return;
+}
+
+let baseTicketNo=`DYAR-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`;
+let beforeUrl=await uploadTicketPhoto($("photoBefore").files?.[0],baseTicketNo+"-before");
+let createdAt=new Date().toISOString();
+
+let payloads=selectedIssues.map((issue,index)=>{
+let auto=autoAssign(issue.item,issue.problem,type);
+let ticketNo=selectedIssues.length>1?`${baseTicketNo}-${String(index+1).padStart(2,"0")}`:baseTicketNo;
+
+return {
   ticket_no:ticketNo,
   hotel:$("ticketHotel").value,
   floor:$("ticketFloor").value,
   room:$("ticketRoom").value,
   location:`${$("ticketFloor").value} / ${$("ticketRoom").value}`,
-  inspection_type:inspectionLabels[$("inspectionType").value],
-  item:$("item").value,
-  problem:$("problem").value,
+  inspection_type:inspectionLabels[type],
+  item:issue.item,
+  problem:issue.problem,
   note:$("note").value.trim(),
   department:auto.department,
   technician:auto.technician,
@@ -1408,19 +1486,20 @@ let payload={
   warehouse_checklist:warehouseChecklist(),
   created_by:currentUser.id,
   created_by_name:userLabel(),
-  created_at:new Date().toISOString()
+  created_at:createdAt
 };
+});
 
-let {error}=await db.from("tickets").insert(payload);
+let {error}=await db.from("tickets").insert(payloads);
 
 if(error){
   msg("ticketMsg","فشل حفظ البلاغ: "+showErr(error),"error");
   return;
 }
 
-await logAudit("إنشاء بلاغ",ticketNo);
+await logAudit(type==="room"?"إنشاء بلاغات فحص غرفة":"إنشاء بلاغ",payloads.map(p=>p.ticket_no).join(", "));
 clearForm();
-msg("ticketMsg","تم حفظ البلاغ في Supabase.");
+msg("ticketMsg",`تم حفظ ${payloads.length} بلاغ في Supabase.`);
 await loadAllData();
 renderAll();
 }
@@ -1433,6 +1512,10 @@ $("photoBefore").value="";
   let el=$(id);
   if(el)el.checked=false;
 });
+
+let roomReady=$("roomReady");
+if(roomReady)roomReady.checked=false;
+document.querySelectorAll(".roomIssueInput").forEach(input=>input.checked=false);
 }
 
 function riskClass(r){
